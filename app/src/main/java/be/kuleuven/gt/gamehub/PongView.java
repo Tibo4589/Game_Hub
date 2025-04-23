@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -17,7 +18,7 @@ public class PongView extends SurfaceView implements Runnable {
     private Paint paint;
     private float ballX = getWidth()/2f, ballY=200, ballRadius = 20;
     private float ballSpeedX = 20, ballSpeedY = 20;
-    private float paddleX, paddleY, paddleWidth = 300, paddleHeight = 30;
+    private float paddleX, paddleY, paddleWidth = 2000, paddleHeight = 30;
     private SurfaceHolder holder;
 
     private boolean isGameOver = false;
@@ -69,10 +70,12 @@ public class PongView extends SurfaceView implements Runnable {
     @Override
     public void run() {
         while (isPlaying) {
+            control();
             update();
             draw();
             setHighscore();
         }
+        setHighscore();
     }
 
     public void setGameOverListener(GameOverListener listener) {
@@ -93,16 +96,38 @@ public class PongView extends SurfaceView implements Runnable {
             ballSpeedY *= -1;
         }
 
-        if (ballY + ballRadius >= paddleY &&
+        // Predict where the ball will be next frame
+        float nextBallY = ballY + ballSpeedY;
+
+// Check if ball crosses paddle zone
+        boolean isCrossingPaddle = ballY + ballRadius <= paddleY && nextBallY + ballRadius >= paddleY;
+
+        if (isCrossingPaddle &&
                 ballX >= paddleX && ballX <= paddleX + paddleWidth) {
-            if (ballSpeedY<85){
-                double randY = Math.random()*0.25;
-                ballSpeedY *= (float) -(1+randY);}
-            if (ballSpeedX<85){
-                double randX = Math.random()*0.25;
-                ballSpeedX *= (float) (1+randX);}
+
+            // Collision detected even with fast ball
+            double randY = Math.random() * 0.2;
+            ballSpeedY *= (float) -(1 + randY);
+
+            double randX = Math.random() * 0.2;
+            ballSpeedX *= (float) (1 + randX);
+
+            // Cap speeds
+            if (ballSpeedY > 100) ballSpeedY = 100;
+            if (ballSpeedY < -100) ballSpeedY = -100;
+            if (ballSpeedX > 100) ballSpeedX = 100;
+            if (ballSpeedX < -100) ballSpeedX = -100;
+
             score++;
+            if (score>50){
+                paddleWidth-=2;
+            }
+            if (paddleWidth<100){
+                paddleWidth=100;
+            }
+            Log.d("PongView", "Bounce! speedX=" + ballSpeedX + " speedY=" + ballSpeedY+" paddlewidth="+paddleWidth);
         }
+
 
         if (ballY > paddleY+ballRadius) {
             isGameOver = true;
@@ -188,14 +213,13 @@ public class PongView extends SurfaceView implements Runnable {
         ballY = 200;
         paddleX = (getWidth() - paddleWidth) / 2f;
         paddleY = getHeight() - 200;
-        ballSpeedY=10;
-        ballSpeedX=10;
+        ballSpeedY=20;
+        ballSpeedX=20;
     }
-    private int setHighscore(){
+    private void setHighscore(){
         if (score>highscore){
             highscore=score;
         }
-        return highscore;
     }
 }
 
