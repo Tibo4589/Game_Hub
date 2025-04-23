@@ -18,7 +18,7 @@ public class PongView extends SurfaceView implements Runnable {
     private Paint paint;
     private float ballX = getWidth()/2f, ballY=200, ballRadius = 20;
     private float ballSpeedX = 20, ballSpeedY = 20;
-    private float paddleX, paddleY, paddleWidth = 2000, paddleHeight = 30;
+    private float paddleX, paddleY, paddleWidth = 400, paddleHeight = 30;
     private SurfaceHolder holder;
 
     private boolean isGameOver = false;
@@ -103,7 +103,7 @@ public class PongView extends SurfaceView implements Runnable {
         boolean isCrossingPaddle = ballY + ballRadius <= paddleY && nextBallY + ballRadius >= paddleY;
 
         if (isCrossingPaddle &&
-                ballX >= paddleX && ballX <= paddleX + paddleWidth) {
+                ballX >= paddleX-20 && ballX <= paddleX + paddleWidth+20) {
 
             // Collision detected even with fast ball
             double randY = Math.random() * 0.2;
@@ -113,14 +113,14 @@ public class PongView extends SurfaceView implements Runnable {
             ballSpeedX *= (float) (1 + randX);
 
             // Cap speeds
-            if (ballSpeedY > 100) ballSpeedY = 100;
-            if (ballSpeedY < -100) ballSpeedY = -100;
-            if (ballSpeedX > 100) ballSpeedX = 100;
-            if (ballSpeedX < -100) ballSpeedX = -100;
+            if (ballSpeedY > 80) ballSpeedY = 80;
+            if (ballSpeedY < -80) ballSpeedY = -80;
+            if (ballSpeedX > 80) ballSpeedX = 80;
+            if (ballSpeedX < -80) ballSpeedX = -80;
 
             score++;
-            if (score>50){
-                paddleWidth-=2;
+            if (score>20){
+                paddleWidth-=10;
             }
             if (paddleWidth<100){
                 paddleWidth=100;
