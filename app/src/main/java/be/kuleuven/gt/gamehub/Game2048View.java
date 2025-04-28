@@ -88,7 +88,57 @@ public class Game2048View extends View {
 
     private void drawTile(Canvas canvas, int x, int y, int cellSize) {
         int value = board[y][x];
-        paint.setColor(value == 0 ? Color.GRAY : Color.WHITE);
+
+        switch (value) {
+            case 0:
+                paint.setColor(Color.LTGRAY);
+                break;
+            case 2:
+                paint.setColor(Color.rgb(238, 228, 218)); // light color
+                break;
+            case 4:
+                paint.setColor(Color.rgb(237, 224, 200));
+                break;
+            case 8:
+                paint.setColor(Color.rgb(242, 177, 121));
+                break;
+            case 16:
+                paint.setColor(Color.rgb(245, 149, 99));
+                break;
+            case 32:
+                paint.setColor(Color.rgb(246, 124, 95));
+                break;
+            case 64:
+                paint.setColor(Color.rgb(246, 94, 59));
+                break;
+            case 128:
+                paint.setColor(Color.rgb(237, 207, 114));
+                break;
+            case 256:
+                paint.setColor(Color.rgb(237, 204, 97));
+                break;
+            case 512:
+                paint.setColor(Color.rgb(237, 200, 80));
+                break;
+            case 1024:
+                paint.setColor(Color.rgb(237, 197, 63));
+                break;
+            case 2048:
+                paint.setColor(Color.rgb(237, 194, 46));
+                break;
+            case 4096:
+                paint.setColor(Color.rgb(255,102,255));
+                break;
+            case 8192:
+                paint.setColor(Color.rgb(0,0,255));
+                break;
+            case 16384:
+                paint.setColor(Color.rgb(0,255,0));
+                break;
+            default:
+                paint.setColor(Color.BLACK);
+                break;
+        }
 
         int left = x * cellSize;
         int top = y * cellSize;
@@ -97,8 +147,16 @@ public class Game2048View extends View {
 
         canvas.drawRect(left, top, right, bottom, paint);
 
-        if (value != 0) {
+        if (value != 0 && value<1000) {
             paint.setColor(Color.BLACK);
+            canvas.drawText(String.valueOf(value),
+                    left + cellSize / 2f,
+                    top + cellSize / 1.7f,
+                    paint);
+        }
+        else {
+            paint.setColor(Color.BLACK);
+            paint.setTextSize(cellSize/3);
             canvas.drawText(String.valueOf(value),
                     left + cellSize / 2f,
                     top + cellSize / 1.7f,

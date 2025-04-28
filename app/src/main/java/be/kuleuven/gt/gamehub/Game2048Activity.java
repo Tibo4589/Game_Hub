@@ -61,7 +61,6 @@ public class Game2048Activity extends AppCompatActivity {
         game2048View.pause();
         finalScoreText.setText("Final Score: " + score);
         gameOverScreen.setVisibility(View.VISIBLE);
-        game2048View.setVisibility(View.GONE);
         buttonDown.setVisibility(View.GONE);
         buttonUp.setVisibility(View.GONE);
         buttonLeft.setVisibility(View.GONE);
@@ -70,7 +69,6 @@ public class Game2048Activity extends AppCompatActivity {
 
     private void restartGame() {
         gameOverScreen.setVisibility(View.GONE);
-        game2048View.setVisibility(View.VISIBLE);
         buttonDown.setVisibility(View.VISIBLE);
         buttonUp.setVisibility(View.VISIBLE);
         buttonLeft.setVisibility(View.VISIBLE);
