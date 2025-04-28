@@ -21,5 +21,8 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(this, PongActivity.class));
     }
 
+    public void open2048(View view) {
+        startActivity(new Intent(this, Game2048Activity.class));
+    }
     // Add more methods for other games as you implement them
 }

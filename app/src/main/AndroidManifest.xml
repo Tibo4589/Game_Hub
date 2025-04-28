@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GameHub"
         tools:targetApi="31">
+        <activity android:name=".Game2048Activity" />
         <activity android:name=".PongActivity"/>
         <activity
             android:name=".MainActivity"
