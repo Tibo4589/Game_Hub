@@ -8,6 +8,8 @@ import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+
+import java.sql.Time;
 import java.util.Random;
 
 public class Game2048View extends View {
@@ -61,12 +63,12 @@ public class Game2048View extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        int width = getWidth();
-        int height = getWidth(); // Keep square
+        int width = getWidth()-20;
+        int height = getWidth()-20; // Keep square
         int cellSize = Math.min(width, height) / 4;
-        canvas.drawColor(Color.LTGRAY);
+        canvas.drawColor(Color.WHITE);
 
-        paint.setTextSize(cellSize / 2);
+        paint.setTextSize(cellSize / 2f);
         paint.setTextAlign(Paint.Align.CENTER);
 
         for (int y = 0; y < 4; y++) {
@@ -76,14 +78,19 @@ public class Game2048View extends View {
         }
 
         paint.setColor(Color.BLACK);
+        paint.setStrokeWidth(8);
         // Horizontal lines
+        canvas.drawLine(0,4,width,4, paint);
         canvas.drawLine(0, height / 4f, width, height / 4f, paint);
         canvas.drawLine(0, height / 2f, width, height / 2f, paint);
         canvas.drawLine(0, height * 0.75f, width, height * 0.75f, paint);
+        canvas.drawLine(0,height,width,height,paint);
         // Vertical lines
+        canvas.drawLine(4,0,4, height, paint);
         canvas.drawLine(width / 4f, 0, width / 4f, height, paint);
         canvas.drawLine(width / 2f, 0, width / 2f, height, paint);
         canvas.drawLine(width * 0.75f, 0, width * 0.75f, height, paint);
+        canvas.drawLine(width,0,width,height,paint);
     }
 
     private void drawTile(Canvas canvas, int x, int y, int cellSize) {
@@ -91,7 +98,7 @@ public class Game2048View extends View {
 
         switch (value) {
             case 0:
-                paint.setColor(Color.LTGRAY);
+                paint.setColor(Color.WHITE);
                 break;
             case 2:
                 paint.setColor(Color.rgb(238, 228, 218)); // light color
@@ -147,20 +154,23 @@ public class Game2048View extends View {
 
         canvas.drawRect(left, top, right, bottom, paint);
 
-        if (value != 0 && value<1000) {
-            paint.setColor(Color.BLACK);
-            canvas.drawText(String.valueOf(value),
+        if (value != 0) {
+            if (value < 10000) {
+                paint.setColor(Color.BLACK);
+                paint.setTextSize(cellSize / 3f);
+            } else {
+                paint.setColor(Color.WHITE);
+                paint.setTextSize(cellSize / 4f);
+            }
+
+            paint.setTextAlign(Paint.Align.CENTER);
+
+            canvas.drawText(
+                    String.valueOf(value),
                     left + cellSize / 2f,
                     top + cellSize / 1.7f,
-                    paint);
-        }
-        else {
-            paint.setColor(Color.BLACK);
-            paint.setTextSize(cellSize/3);
-            canvas.drawText(String.valueOf(value),
-                    left + cellSize / 2f,
-                    top + cellSize / 1.7f,
-                    paint);
+                    paint
+            );
         }
     }
 
@@ -198,33 +208,77 @@ public class Game2048View extends View {
         }
     }
 
+    private int[][] cloneBoard(int[][] original) {
+        int[][] copy = new int[4][4];
+        for (int y = 0; y < 4; y++) {
+            System.arraycopy(original[y], 0, copy[y], 0, 4);
+        }
+        return copy;
+    }
+
+    private boolean boardsAreEqual(int[][] board1, int[][] board2) {
+        for (int y = 0; y < 4; y++) {
+            for (int x = 0; x < 4; x++) {
+                if (board1[y][x] != board2[y][x]) return false;
+            }
+        }
+        return true;
+    }
+
     protected void moveLeft() {
-        boolean moved = false;
+        int[][] oldBoard = cloneBoard(board); // Save the whole board
+
         for (int y = 0; y < 4; y++) {
             int[] newRow = new int[4];
             int index = 0;
+
+            // Step 1: Shift non-zero tiles to the left
             for (int x = 0; x < 4; x++) {
                 if (board[y][x] != 0) {
-                    if (index > 0 && newRow[index - 1] == board[y][x]) {
-                        newRow[index - 1] *= 2;
-                        score2048 += newRow[index - 1];
-                        if (scoreChangeListener != null) {
-                            scoreChangeListener.onScoreChanged(score2048);
-                        }
-                    } else {
-                        newRow[index++] = board[y][x];
+                    newRow[index++] = board[y][x];
+                }
+            }
+
+            // Step 2: Merge adjacent tiles
+            for (int x = 0; x < 3; x++) {
+                if (newRow[x] != 0 && newRow[x] == newRow[x + 1]) {
+                    newRow[x] *= 2;
+                    newRow[x + 1] = 0;
+                    score2048 += newRow[x];
+                    if (scoreChangeListener != null) {
+                        scoreChangeListener.onScoreChanged(score2048);
                     }
                 }
             }
+
+            // Step 3: Shift again after merging
+            int[] finalRow = new int[4];
+            index = 0;
             for (int x = 0; x < 4; x++) {
-                if (board[y][x] != newRow[x]) moved = true;
-                board[y][x] = newRow[x];
+                if (newRow[x] != 0) {
+                    finalRow[index++] = newRow[x];
+                }
             }
+
+            // Step 4: Save the final row back
+            board[y] = finalRow;
         }
-        if (moved) spawnRandom();
-        invalidate();
-        checkGameOver();
+
+        boolean moved = !boardsAreEqual(oldBoard, board); // Compare old vs new board
+
+        if (moved) {
+            invalidate(); // Immediate refresh after moving
+            postDelayed(() -> {
+                spawnRandom();
+                invalidate(); // Refresh again after spawning
+                checkGameOver();
+            }, 50);
+        } else {
+            invalidate(); // No move => still refresh
+            checkGameOver();
+        }
     }
+
 
     protected void moveRight() {
         rotateBoard();
