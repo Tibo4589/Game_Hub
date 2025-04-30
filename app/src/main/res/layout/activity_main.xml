@@ -2,61 +2,66 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="24dp">
 
-    <Button
-        android:id="@+id/btnBBTAN"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="300dp"
-        android:layout_marginEnd="50dp"
-        android:onClick="openBBTAN"
-        android:text="Play BBTAN"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/btnMinesweeper"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/btnMinesweeper"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="300dp"
-        android:onClick="openMinesweeper"
-        android:text="Play Minesweeper"
-        app:layout_constraintEnd_toStartOf="@+id/btnBBTAN"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+    <!-- 2048 Button -->
     <Button
         android:id="@+id/btn2048"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="200dp"
-        android:onClick="open2048"
         android:text="Play 2048"
-        app:layout_constraintEnd_toStartOf="@+id/btnPong"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        android:onClick="open2048"
+        android:layout_marginTop="100dp"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/btnPong"
+        app:layout_constraintHorizontal_chainStyle="spread_inside" />
 
+    <!-- Pong Button -->
     <Button
         android:id="@+id/btnPong"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
-        android:layout_marginEnd="50dp"
-        android:onClick="openPong"
         android:text="Play Pong"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        android:onClick="openPong"
+        app:layout_constraintTop_toTopOf="@+id/btn2048"
         app:layout_constraintStart_toEndOf="@+id/btn2048"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Add more buttons for other games -->
+    <!-- Minesweeper Button -->
+    <Button
+        android:id="@+id/btnMinesweeper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Play Minesweeper"
+        android:onClick="openMinesweeper"
+        android:layout_marginTop="32dp"
+        app:layout_constraintTop_toBottomOf="@+id/btn2048"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnBBTAN" />
+
+    <!-- BBTAN Button -->
+    <Button
+        android:id="@+id/btnBBTAN"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Play BBTAN"
+        android:onClick="openBBTAN"
+        app:layout_constraintTop_toTopOf="@+id/btnMinesweeper"
+        app:layout_constraintStart_toEndOf="@+id/btnMinesweeper"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Statistics Button -->
+    <Button
+        android:id="@+id/btnStatistics"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="View Statistics"
+        android:onClick="openStatistics"
+        android:layout_marginTop="48dp"
+        app:layout_constraintTop_toBottomOf="@+id/btnMinesweeper"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

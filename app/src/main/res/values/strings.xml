@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Game Hub</string>
+    <string name="statistics_title">Statistics</string>
 </resources>

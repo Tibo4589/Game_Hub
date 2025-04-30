@@ -20,6 +20,9 @@
 
         <!-- Adicionado! -->
         <activity android:name=".RegisterActivity" />
+        <activity android:name=".StatisticsActivity" android:exported="true" />
+
+
 
         <!-- LoginActivity é agora a tela inicial -->
         <activity

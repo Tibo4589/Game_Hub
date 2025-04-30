@@ -25,4 +25,8 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(this, Game2048Activity.class));
     }
     // Add more methods for other games as you implement them
+    public void openStatistics(View view) {
+        startActivity(new Intent(this, StatisticsActivity.class));
+    }
+
 }
