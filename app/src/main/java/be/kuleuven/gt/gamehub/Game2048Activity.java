@@ -5,6 +5,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import android.widget.Toast;
+
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import be.kuleuven.gt.gamehub.Game2048View;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -65,6 +75,8 @@ public class Game2048Activity extends AppCompatActivity {
         buttonUp.setVisibility(View.GONE);
         buttonLeft.setVisibility(View.GONE);
         buttonRight.setVisibility(View.GONE);
+
+        sendScoreToServer(score, 1); // 1 = ID do jogo 2048
     }
 
     private void restartGame() {
@@ -77,4 +89,32 @@ public class Game2048Activity extends AppCompatActivity {
         game2048View.init();
         game2048View.resume();
     }
+
+    private void sendScoreToServer(int score, int gameId) {
+        String url = "https://a24pt115.studev.groept.be/save_score.php";
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        JSONObject jsonBody = new JSONObject();
+        try {
+            int userId = SessionManager.getInstance().getUserId();
+            jsonBody.put("userId", userId);
+            jsonBody.put("gameId", gameId);
+            jsonBody.put("score", score);
+
+            // Adicione um Toast para debug
+            Toast.makeText(this, "Enviando: userId=" + userId + ", score=" + score, Toast.LENGTH_SHORT).show();
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, jsonBody,
+                response -> Toast.makeText(this, "Score salvo com sucesso!", Toast.LENGTH_SHORT).show(),
+                error -> Toast.makeText(this, "Erro ao salvar score: " + error.toString(), Toast.LENGTH_LONG).show()
+        );
+
+        queue.add(request);
+    }
+
+
 }
