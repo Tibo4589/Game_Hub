@@ -78,6 +78,13 @@ public class LoginActivity extends AppCompatActivity {
                         if (status.equals("success")) {
                             String username = response.getString("username");
                             Toast.makeText(this, "Welcome, " + username, Toast.LENGTH_LONG).show();
+                            int userId = response.getInt("userId");
+                            SessionManager.getInstance().setUserId(userId);
+                            SessionManager.getInstance().setUserId(userId);
+                            SessionManager.getInstance().setUsername(username);
+                            SessionManager.getInstance().setEmail(email);
+
+
 
                             // Redireciona para tela principal
                             Intent intent = new Intent(this, MainActivity.class);

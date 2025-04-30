@@ -1,0 +1,96 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/statistics_scroll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/statistics_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:paddingTop="100dp">
+
+        <TextView
+            android:id="@+id/txtTitle"
+            android:text="Statistics"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp" />
+
+        <!-- 2048 Section -->
+        <TextView android:id="@+id/txt2048Title"
+            android:text="2048"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView android:id="@+id/txt2048Today"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Best of today: -" />
+
+        <TextView android:id="@+id/txt2048Month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Best of the month: -" />
+
+        <TextView android:id="@+id/txt2048All"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Best of all times: -" />
+
+
+        <TextView android:id="@+id/txt2048Global"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Global Best: -" />
+
+        <View android:layout_width="match_parent"
+            android:layout_height="24dp" />
+
+        <!-- Pong Section -->
+        <TextView android:id="@+id/txtPongTitle"
+            android:text="Pong"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView android:id="@+id/txtPongToday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Best of today: -" />
+
+        <TextView android:id="@+id/txtPongMonth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Best of the month: -" />
+
+        <TextView android:id="@+id/txtPongAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Best of all times: -" />
+
+
+        <TextView android:id="@+id/txtPongGlobal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Global Best: -" />
+
+        <View android:layout_width="match_parent"
+            android:layout_height="36dp" />
+
+        <Button
+            android:id="@+id/btnBackHome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Back to Profile"
+            android:layout_marginTop="20dp" />
+
+    </LinearLayout>
+</ScrollView>
