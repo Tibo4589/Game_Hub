@@ -45,14 +45,16 @@ public class StatisticsActivity extends AppCompatActivity {
         layout.setPadding(layout.getPaddingLeft(), layout.getPaddingTop() + 100, layout.getPaddingRight(), layout.getPaddingBottom());
 
         // Botão de voltar para o MainActivity
-        Button btnBack = new Button(this);
-        btnBack.setText("Back to Home");
+        Button btnBack = findViewById(R.id.btnBackHome);
         btnBack.setOnClickListener(v -> {
-            Intent intent = new Intent(StatisticsActivity.this, MainActivity.class);
+            Intent intent = new Intent(StatisticsActivity.this, ProfileActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
             finish();
+
         });
-        layout.addView(btnBack);
+
+//        layout.addView(btnBack);
 
         // Chamada à API
         fetchStatistics();

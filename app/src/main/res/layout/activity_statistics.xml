@@ -44,10 +44,6 @@
             android:layout_height="wrap_content"
             android:text="Best of all times: -" />
 
-        <TextView android:id="@+id/txt2048Fastest"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Fastest: -" />
 
         <TextView android:id="@+id/txt2048Global"
             android:layout_width="wrap_content"
@@ -80,10 +76,6 @@
             android:layout_height="wrap_content"
             android:text="Best of all times: -" />
 
-        <TextView android:id="@+id/txtPongFastest"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Fastest: -" />
 
         <TextView android:id="@+id/txtPongGlobal"
             android:layout_width="wrap_content"
@@ -95,8 +87,10 @@
 
         <Button
             android:id="@+id/btnBackHome"
-            android:text="Back to Home"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="Back to Profile"
+            android:layout_marginTop="20dp" />
+
     </LinearLayout>
 </ScrollView>

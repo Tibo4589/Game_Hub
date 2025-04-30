@@ -21,6 +21,9 @@
         <!-- Adicionado! -->
         <activity android:name=".RegisterActivity" />
         <activity android:name=".StatisticsActivity" android:exported="true" />
+        <activity android:name=".ProfileActivity" android:exported="true" />
+
+
 
 
 
