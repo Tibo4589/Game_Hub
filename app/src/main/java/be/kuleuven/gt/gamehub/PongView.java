@@ -9,6 +9,9 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
+import androidx.core.util.TimeUtils;
+
 import java.lang.Math;
 
 // This constructor is required for inflation from XML!
@@ -17,8 +20,8 @@ public class PongView extends SurfaceView implements Runnable {
     private boolean isPlaying;
     private Paint paint;
     private float ballX = getWidth()/2f, ballY=200, ballRadius = 20;
-    private float ballSpeedX = 20, ballSpeedY = 20;
-    private float paddleX, paddleY, paddleWidth = 400, paddleHeight = 30;
+    private float ballSpeedX , ballSpeedY;
+    private float paddleX, paddleY, paddleWidth = 300, paddleHeight = 30;
     private SurfaceHolder holder;
 
     private boolean isGameOver = false;
@@ -74,6 +77,9 @@ public class PongView extends SurfaceView implements Runnable {
             update();
             draw();
             setHighscore();
+            invalidate();
+            float starttime = getDrawingTime();
+            Log.d("PongView", "run: " + starttime);
         }
         setHighscore();
     }
@@ -85,57 +91,54 @@ public class PongView extends SurfaceView implements Runnable {
     private void update() {
         if (isGameOver) return;
 
-        ballX += ballSpeedX;
-        ballY += ballSpeedY;
+        float nextBallX = ballX + ballSpeedX;
+        float nextBallY = ballY + ballSpeedY;
 
-        if (ballX < ballRadius || ballX > getWidth() - ballRadius) {
+        boolean isHittingLeftWall = nextBallX <= ballRadius;
+        boolean isHittingRightWall = nextBallX >= getWidth() - ballRadius;
+        boolean isHittingTopWall = nextBallY <= 100 + ballRadius;
+
+        if (isHittingLeftWall || isHittingRightWall) {
             ballSpeedX *= -1;
         }
 
-        if (ballY < ballRadius+120) {
+        if (isHittingTopWall) {
             ballSpeedY *= -1;
         }
 
-        // Predict where the ball will be next frame
-        float nextBallY = ballY + ballSpeedY;
-
-// Check if ball crosses paddle zone
         boolean isCrossingPaddle = ballY + ballRadius <= paddleY && nextBallY + ballRadius >= paddleY;
 
-        if (isCrossingPaddle &&
-                ballX >= paddleX-20 && ballX <= paddleX + paddleWidth+20) {
+        if (isCrossingPaddle && ballX >= paddleX  && ballX <= paddleX + paddleWidth) {
+            ballY = paddleY - ballRadius;
+            ballSpeedY *= (float) -(1 + Math.random()*0.2);
 
-            // Collision detected even with fast ball
-            double randY = Math.random() * 0.2;
-            ballSpeedY *= (float) -(1 + randY);
+            ballSpeedX += (float) (Math.random() * 10 - 5);
 
-            double randX = Math.random() * 0.2;
-            ballSpeedX *= (float) (1 + randX);
-
-            // Cap speeds
-            if (ballSpeedY > 80) ballSpeedY = 80;
-            if (ballSpeedY < -80) ballSpeedY = -80;
-            if (ballSpeedX > 80) ballSpeedX = 80;
-            if (ballSpeedX < -80) ballSpeedX = -80;
+            ballSpeedX = Math.max(-80, Math.min(80, ballSpeedX));
+            ballSpeedY = Math.max(-80, Math.min(80, ballSpeedY));
 
             score++;
-            if (score>20){
-                paddleWidth-=10;
+            if (score > 20) {
+                paddleWidth -= 10;
             }
-            if (paddleWidth<100){
-                paddleWidth=100;
+            if (paddleWidth < 100) {
+                paddleWidth = 100;
             }
-            Log.d("PongView", "Bounce! speedX=" + ballSpeedX + " speedY=" + ballSpeedY+" paddlewidth="+paddleWidth);
+            Log.d("PongView", "Bounce! speedX=" + ballSpeedX + " speedY=" + ballSpeedY + " paddleWidth=" + paddleWidth);
         }
 
+        ballX += ballSpeedX;
+        ballY += ballSpeedY;
 
-        if (ballY > paddleY+ballRadius) {
+        if (ballY > paddleY + ballRadius) {
             isGameOver = true;
             if (gameOverListener != null) {
                 gameOverListener.onGameOver(score);
             }
         }
     }
+
+
 
     private void draw() {
         if (!holder.getSurface().isValid()) return;
@@ -152,7 +155,7 @@ public class PongView extends SurfaceView implements Runnable {
 
         //Line
         paint.setColor(Color.WHITE);
-        canvas.drawLine(0,100,2000,100,paint);
+        canvas.drawLine(0,100,canvas.getWidth(),100,paint);
         // Score
         paint.setTextSize(50);
         canvas.drawText("Score: " + score, 50, 80, paint);
@@ -161,6 +164,7 @@ public class PongView extends SurfaceView implements Runnable {
         canvas.drawText("High Score: "+ highscore, 600,80,paint);
 
         holder.unlockCanvasAndPost(canvas);
+        postInvalidateOnAnimation();
     }
 
     private void control() {

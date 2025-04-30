@@ -64,7 +64,7 @@ public class Game2048View extends View {
         super.onDraw(canvas);
 
         int width = getWidth()-20;
-        int height = getWidth()-20; // Keep square
+        int height = getWidth()-20;
         int cellSize = Math.min(width, height) / 4;
         canvas.drawColor(Color.WHITE);
 
@@ -267,12 +267,10 @@ public class Game2048View extends View {
         boolean moved = !boardsAreEqual(oldBoard, board); // Compare old vs new board
 
         if (moved) {
-            invalidate(); // Immediate refresh after moving
-            postDelayed(() -> {
-                spawnRandom();
-                invalidate(); // Refresh again after spawning
-                checkGameOver();
-            }, 50);
+            spawnRandom();
+            invalidate();
+            checkGameOver();
+
         } else {
             invalidate(); // No move => still refresh
             checkGameOver();
@@ -351,12 +349,6 @@ public class Game2048View extends View {
         isGameOver = true;
         if (gameOverListener != null) {
             gameOverListener.onGameOver(score2048);
-        }
-    }
-
-    public void highscore2048() {
-        if (score2048 > highscore2048) {
-            highscore2048 = score2048;
         }
     }
 
