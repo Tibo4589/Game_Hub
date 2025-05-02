@@ -1,9 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/tetris_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/tetris_preview_container"
+        android:layout_width="82dp"
+        android:layout_height="210dp"
+        android:layout_marginTop="110dp"
+        android:layout_marginEnd="10dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Hold"
+            android:textStyle="bold" />
+
+        <be.kuleuven.gt.gamehub.TetrisPreviewView
+            android:id="@+id/hold_preview"
+            android:layout_width="80dp"
+            android:layout_height="80dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="12dp"
+            android:text="Next"
+            android:textStyle="bold" />
+
+        <be.kuleuven.gt.gamehub.TetrisPreviewView
+            android:id="@+id/next_preview"
+            android:layout_width="80dp"
+            android:layout_height="80dp" />
+    </LinearLayout>
 
     <!-- Tetris Game View -->
     <be.kuleuven.gt.gamehub.TetrisView
@@ -64,7 +101,7 @@
         android:layout_width="110dp"
         android:layout_height="35dp"
         android:layout_marginStart="296dp"
-        android:layout_marginTop="365dp"
+        android:layout_marginTop="400dp"
         app:layout_constraintBottom_toTopOf="@+id/txtHighScoreTetris"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -76,8 +113,20 @@
         android:id="@+id/txtHighScoreTetris"
         android:layout_width="110dp"
         android:layout_height="35dp"
-        android:layout_marginTop="400dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginTop="385dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnHold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/btnHold"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="460dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="10dp"
+        android:text="Hold"
         app:layout_constraintBottom_toTopOf="@+id/btnRightTetris"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
