@@ -17,6 +17,7 @@
 
         <activity android:name=".Game2048Activity" />
         <activity android:name=".PongActivity" />
+        <activity android:name=".TetrisActivity" />
 
         <!-- Adicionado! -->
         <activity android:name=".RegisterActivity" />

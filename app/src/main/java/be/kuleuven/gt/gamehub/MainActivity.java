@@ -24,6 +24,10 @@ public class MainActivity extends AppCompatActivity {
     public void open2048(View view) {
         startActivity(new Intent(this, Game2048Activity.class));
     }
+
+    public void openTetris(View view) {
+        startActivity(new Intent(this, TetrisActivity.class));
+    }
     // Add more methods for other games as you implement them
 
     public void openProfile(View view) {
