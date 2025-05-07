@@ -22,9 +22,8 @@ public class ProfileActivity extends AppCompatActivity {
         btnSettings.setOnClickListener(v -> {
             // abrir settings futuramente
         });
-        btnAchievements.setOnClickListener(v -> {
-            // abrir achievements futuramente
-        });
+        btnAchievements.setOnClickListener(v -> startActivity(new Intent(this, AchievementsActivity.class)));
+
         btnBackHome.setOnClickListener(v -> finish());
     }
 }
