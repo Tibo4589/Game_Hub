@@ -1,6 +1,7 @@
 package be.kuleuven.gt.gamehub;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -30,26 +31,29 @@ public class RegisterActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_register);
 
+        // Ajusta o padding para evitar sobreposição com a status bar
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        // Link com o XML
+        // Referencia os elementos do XML
         usernameEditText = findViewById(R.id.username);
         emailEditText = findViewById(R.id.email);
         passwordEditText = findViewById(R.id.password);
         btnRegister = findViewById(R.id.btnRegister);
 
-        // Ação do botão registrar
+        // Ação do botão
         btnRegister.setOnClickListener(v -> {
-            String username = usernameEditText.getText().toString();
-            String email = emailEditText.getText().toString();
+            String username = usernameEditText.getText().toString().trim();
+            String email = emailEditText.getText().toString().trim();
             String password = passwordEditText.getText().toString();
 
             if (username.isEmpty() || email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+            } else if (!email.contains("@") || !email.contains(".")) {
+                Toast.makeText(this, "Invalid email format", Toast.LENGTH_SHORT).show();
             } else {
                 sendRegisterRequest(username, email, password);
             }
@@ -57,7 +61,6 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void sendRegisterRequest(String username, String email, String password) {
-//        String url = "https://a24pt115.studev.groept.be/register.php";
         String url = "https://a24pt115.studev.groept.be/register.php";
         RequestQueue queue = Volley.newRequestQueue(this);
 
@@ -78,7 +81,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                         if (status.equals("success")) {
                             Toast.makeText(this, "Registration successful!", Toast.LENGTH_LONG).show();
-                            finish(); // volta para LoginActivity
+                            finish(); // Volta para a tela de login
                         } else {
                             Toast.makeText(this, "Error: " + message, Toast.LENGTH_LONG).show();
                         }
@@ -87,8 +90,15 @@ public class RegisterActivity extends AppCompatActivity {
                         Toast.makeText(this, "Error parsing response", Toast.LENGTH_LONG).show();
                     }
                 },
-                error -> Toast.makeText(this, "Network error: " + error.toString(), Toast.LENGTH_LONG).show()
-        );
+                error -> {
+                    if (error.networkResponse != null && error.networkResponse.data != null) {
+                        String body = new String(error.networkResponse.data);
+                        Log.e("RegisterError", "Server error:\n" + body);
+                        Toast.makeText(this, "Server error (see log)", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(this, "Network error: " + error.toString(), Toast.LENGTH_LONG).show();
+                    }
+                });
 
         queue.add(request);
     }

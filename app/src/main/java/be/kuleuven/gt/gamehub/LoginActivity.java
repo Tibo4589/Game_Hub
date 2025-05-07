@@ -48,6 +48,8 @@ public class LoginActivity extends AppCompatActivity {
 
             if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+            } else if (!email.contains("@") || !email.contains(".")) {
+                Toast.makeText(this, "Invalid email format", Toast.LENGTH_SHORT).show();
             } else {
                 sendLoginRequest(email, password);
             }
