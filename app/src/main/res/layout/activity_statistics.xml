@@ -85,6 +85,38 @@
         <View android:layout_width="match_parent"
             android:layout_height="36dp" />
 
+        <!-- Tetris section -->
+        <TextView android:id="@+id/txtTetrisTitle"
+            android:text="Tetris"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView android:id="@+id/txtTetrisToday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Best of today: -" />
+
+        <TextView android:id="@+id/txtTetrisMonth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Best of the month: -" />
+
+        <TextView android:id="@+id/txtTetrisAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Best of all times: -" />
+
+
+        <TextView android:id="@+id/txtTetrisGlobal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Global Best: -" />
+
+        <View android:layout_width="match_parent"
+            android:layout_height="36dp" />
+
         <Button
             android:id="@+id/btnBackHome"
             android:layout_width="match_parent"

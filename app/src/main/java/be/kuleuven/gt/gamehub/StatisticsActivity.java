@@ -23,6 +23,8 @@ public class StatisticsActivity extends AppCompatActivity {
 
     private TextView txt2048Today, txt2048Month, txt2048All, txt2048Global;
     private TextView txtPongToday, txtPongMonth, txtPongAll, txtPongGlobal;
+    private TextView txtTetrisToday, txtTetrisMonth, txtTetrisAll, txtTetrisGlobal;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,12 @@ public class StatisticsActivity extends AppCompatActivity {
         txtPongMonth = findViewById(R.id.txtPongMonth);
         txtPongAll = findViewById(R.id.txtPongAll);
         txtPongGlobal = findViewById(R.id.txtPongGlobal);
+
+        txtTetrisToday = findViewById(R.id.txtTetrisToday);
+        txtTetrisMonth = findViewById(R.id.txtTetrisMonth);
+        txtTetrisAll = findViewById(R.id.txtTetrisAll);
+        txtTetrisGlobal = findViewById(R.id.txtTetrisGlobal);
+
 
         // Move para baixo 100px
         LinearLayout layout = findViewById(R.id.statistics_layout);
@@ -91,7 +99,13 @@ public class StatisticsActivity extends AppCompatActivity {
                                     txtPongMonth.setText("Best of the month: " + game.getInt("month"));
                                     txtPongAll.setText("Best of all times: " + game.getInt("allTime"));
                                     txtPongGlobal.setText("Global Best: " + game.getInt("global"));
+                                } else if (name.equals("Tetris")) {
+                                    txtTetrisToday.setText("Best of today: " + game.getInt("today"));
+                                    txtTetrisMonth.setText("Best of the month: " + game.getInt("month"));
+                                    txtTetrisAll.setText("Best of all times: " + game.getInt("allTime"));
+                                    txtTetrisGlobal.setText("Global Best: " + game.getInt("global"));
                                 }
+
                             }
                         } else {
                             Toast.makeText(this, "Error loading statistics", Toast.LENGTH_SHORT).show();
