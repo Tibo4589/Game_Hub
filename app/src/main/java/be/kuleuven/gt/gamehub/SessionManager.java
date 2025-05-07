@@ -38,4 +38,9 @@ public class SessionManager {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public void logout() {
+        this.userId = -1;
+    }
+
 }

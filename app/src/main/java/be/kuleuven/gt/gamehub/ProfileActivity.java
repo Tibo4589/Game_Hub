@@ -19,9 +19,7 @@ public class ProfileActivity extends AppCompatActivity {
         Button btnBackHome = findViewById(R.id.btnBackHome);
 
         btnStatistics.setOnClickListener(v -> startActivity(new Intent(this, StatisticsActivity.class)));
-        btnSettings.setOnClickListener(v -> {
-            // abrir settings futuramente
-        });
+        btnSettings.setOnClickListener(v -> startActivity(new Intent(this, SettingsActivity.class)));
         btnAchievements.setOnClickListener(v -> startActivity(new Intent(this, AchievementsActivity.class)));
 
         btnBackHome.setOnClickListener(v -> finish());
