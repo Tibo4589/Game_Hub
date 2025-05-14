@@ -5,6 +5,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_pong"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_marginTop="50dp"
+        android:background="@color/white"
+        android:titleTextColor="@color/black"
+        android:title="GameHub - Pong"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" >
+
+        <ImageButton
+            android:id="@+id/btnReturnPong"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:contentDescription="@string/return_main"
+            android:src="@drawable/ic_action_name"
+            android:layout_gravity="end" />
+
+    </androidx.appcompat.widget.Toolbar>
 
     <!-- Game Over Screen -->
     <be.kuleuven.gt.gamehub.PongView

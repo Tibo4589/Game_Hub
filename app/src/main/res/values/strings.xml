@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">Game Hub</string>
-    <string name="statistics_title">Statistics</string>
+    <string name="rotate">Rotate</string>
+    <string name="move_up">Move Up</string>
+    <string name="move_down">Move Down</string>
+    <string name="move_left">Move Left</string>
+    <string name="move_right">Move Right</string>
+    <string name="hold">Hold</string>
+    <string name="return_main">Return</string>
+    <string name="open_2048">Open 2048</string>
+    <string name="open_tetris">Open Tetris</string>
+    <string name="open_pong">Open Pong</string>
 </resources>

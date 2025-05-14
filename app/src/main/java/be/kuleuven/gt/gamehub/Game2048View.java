@@ -55,7 +55,7 @@ public class Game2048View extends View {
         this.gameOverListener = listener;
     }
 
-    public void setScoreChangeListener(OnScoreChangeListener listener) {
+    public void setScoreChangeListener2048(OnScoreChangeListener listener) {
         this.scoreChangeListener = listener;
     }
 
@@ -355,6 +355,9 @@ public class Game2048View extends View {
     public void clear() {
         board = new int[4][4];
         score2048 = 0;
+        isGameOver = false;
+        spawnRandom();
+        spawnRandom();
         invalidate();
         if (scoreChangeListener != null) {
             scoreChangeListener.onScoreChanged(score2048);

@@ -6,6 +6,8 @@ import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -15,6 +17,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Toolbar toolbar = findViewById(R.id.toolbar_main);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setTitle("GameHub - Home");
+        toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.white));
     }
 
     public void openPong(View view) {
@@ -28,11 +36,14 @@ public class MainActivity extends AppCompatActivity {
     public void openTetris(View view) {
         startActivity(new Intent(this, TetrisActivity.class));
     }
-    // Add more methods for other games as you implement them
 
     public void openProfile(View view) {
         Intent intent = new Intent(this, ProfileActivity.class);
         startActivity(intent);
+    }
+
+    public void openStatistics(View view) {
+        startActivity(new Intent(this,StatisticsActivity.class));
     }
 
 

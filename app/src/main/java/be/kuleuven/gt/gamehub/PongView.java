@@ -78,8 +78,6 @@ public class PongView extends SurfaceView implements Runnable {
             draw();
             setHighscore();
             invalidate();
-            float starttime = getDrawingTime();
-            Log.d("PongView", "run: " + starttime);
         }
         setHighscore();
     }

@@ -6,8 +6,43 @@
     android:layout_height="match_parent"
     android:padding="24dp">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_profile"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_marginTop="50dp"
+        android:background="@color/blue_dark"
+        android:title="GameHub - Home"
+        android:titleTextColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+        <ImageButton
+            android:id="@+id/btnHome"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:background="@color/blue_dark"
+            android:contentDescription="Profile"
+            android:onClick="openmain"
+            android:src="@drawable/ic_action_name" />
+
+        <ImageButton
+            android:id="@+id/btnStatisticsprofile"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:background="@color/blue_dark"
+            android:contentDescription="Statistics"
+            android:onClick="openstatistics"
+            android:src="@drawable/statistics_pictogram" />
+
+    </androidx.appcompat.widget.Toolbar>
+
     <!-- Botão: View Statistics -->
-    <Button
+    <!--Button
         android:id="@+id/btnStatistics"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,7 +50,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="100dp" />
+        android:layout_marginTop="100dp" /-->
 
     <!-- Botão: Settings -->
     <Button
@@ -23,7 +58,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Settings"
-        app:layout_constraintTop_toBottomOf="@id/btnStatistics"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_profile"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="10dp" />
@@ -40,7 +75,7 @@
         android:layout_marginTop="10dp" />
 
     <!-- Botão: Back to Home -->
-    <Button
+    <!--Button
         android:id="@+id/btnBackHome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -48,6 +83,6 @@
         app:layout_constraintTop_toBottomOf="@id/btnAchievements"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="20dp" /-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

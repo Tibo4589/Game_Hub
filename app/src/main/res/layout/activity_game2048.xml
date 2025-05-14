@@ -5,6 +5,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_2048"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_marginTop="50dp"
+        android:background="@color/yellow_2048"
+        android:title="GameHub - 2048"
+        android:titleTextColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" >
+
+        <ImageButton
+            android:id="@+id/btnReturn2048"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:background="@color/yellow_2048"
+            android:contentDescription="@string/return_main"
+            android:src="@drawable/ic_action_name"
+            android:layout_gravity="end" />
+
+    </androidx.appcompat.widget.Toolbar>
+
     <be.kuleuven.gt.gamehub.Game2048View
         android:id="@+id/game_2048_view"
         android:layout_width="0dp"
@@ -18,43 +41,51 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
 
-    <Button
-        android:id="@+id/btnLeft"
+    <ImageButton
+        android:id="@+id/btnLeft2048"
         android:layout_width="120dp"
         android:layout_height="210dp"
         android:layout_marginStart="10dp"
         android:layout_marginBottom="10dp"
-        android:text="Left"
+        android:contentDescription="@string/move_left"
+        android:src="@drawable/baseline_arrow_left_24"
+        android:background="@color/yellow_2048"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/btnUp"
+    <ImageButton
+        android:id="@+id/btnUp2048"
         android:layout_width="140dp"
         android:layout_height="110dp"
         android:layout_marginStart="6dp"
         android:layout_marginBottom="-10dp"
-        android:text="Up"
-        app:layout_constraintBottom_toTopOf="@+id/btnDown"
-        app:layout_constraintStart_toEndOf="@+id/btnLeft" />
+        android:src="@drawable/baseline_arrow_drop_up_24"
+        android:contentDescription="@string/move_up"
+        android:background="@color/yellow_2048"
+        app:layout_constraintBottom_toTopOf="@+id/btnDown2048"
+        app:layout_constraintStart_toEndOf="@+id/btnLeft2048" />
 
-    <Button
-        android:id="@+id/btnDown"
+    <ImageButton
+        android:id="@+id/btnDown2048"
         android:layout_width="140dp"
         android:layout_height="110dp"
         android:layout_marginStart="6dp"
         android:layout_marginBottom="10dp"
-        android:text="Down"
+        android:src="@drawable/baseline_arrow_drop_down_24"
+        android:contentDescription="@string/move_down"
+        android:background="@color/yellow_2048"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnLeft" />
+        app:layout_constraintStart_toEndOf="@+id/btnLeft2048" />
 
-    <Button
-        android:id="@+id/btnRight"
+    <ImageButton
+        android:id="@+id/btnRight2048"
         android:layout_width="120dp"
         android:layout_height="210dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
-        android:text="Right"
+        android:src="@drawable/baseline_arrow_right_24"
+        android:contentDescription="@string/move_right"
+        android:background="@color/yellow_2048"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -64,6 +95,8 @@
         android:layout_height="35dp"
         android:layout_marginStart="50dp"
         android:layout_marginTop="150dp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -73,6 +106,8 @@
         android:layout_height="35dp"
         android:layout_marginTop="150dp"
         android:layout_marginEnd="50dp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

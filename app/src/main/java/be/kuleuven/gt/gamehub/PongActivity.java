@@ -1,13 +1,18 @@
 package be.kuleuven.gt.gamehub;
 
+import android.graphics.drawable.ColorDrawable;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -22,6 +27,7 @@ public class PongActivity extends AppCompatActivity {
     private PongView pongView;
     private LinearLayout gameOverScreen;
     private TextView finalScoreText;
+    private ImageButton buttonReturn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +37,9 @@ public class PongActivity extends AppCompatActivity {
         pongView = findViewById(R.id.pong_view);
         gameOverScreen = findViewById(R.id.game_over_screen);
         finalScoreText = findViewById(R.id.final_score_text);
+        buttonReturn = findViewById(R.id.btnReturnPong);
+
+        buttonReturn.setOnClickListener(v -> {finish();});
 
         pongView.setGameOverListener(score -> runOnUiThread(() -> showGameOver(score)));
 

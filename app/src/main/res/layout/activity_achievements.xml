@@ -3,13 +3,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/scrollView"
+    android:theme="@style/Theme.GameHub.NoActionBar"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    android:background="#FFFFFF"
+    android:background="@color/white"
     tools:context=".AchievementsActivity">
 
     <LinearLayout
+
         android:id="@+id/achievementsContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

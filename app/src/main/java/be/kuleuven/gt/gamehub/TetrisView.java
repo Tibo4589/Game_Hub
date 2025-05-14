@@ -319,7 +319,7 @@ public class TetrisView extends SurfaceView implements Runnable {
         paint.setColor(Color.LTGRAY);
         canvas.drawRect(0, 0, getWidth(), cellSize * ROWS, paint);
 
-        paint.setColor(Color.BLACK);
+        paint.setColor(Color.DKGRAY);
         for (int r = 0; r < ROWS; r++) {
             for (int c = 0; c < COLS; c++) {
                 if (grid[r][c] != 0) {
@@ -329,7 +329,7 @@ public class TetrisView extends SurfaceView implements Runnable {
         }
 
         paint.setStrokeWidth(4);
-        paint.setColor(Color.DKGRAY);
+        paint.setColor(Color.BLACK);
         for (int r = 0; r <= ROWS; r++) {
             canvas.drawLine(0, cellSize * r, getWidth(), cellSize * r, paint);
         }
@@ -374,7 +374,7 @@ public class TetrisView extends SurfaceView implements Runnable {
         gameThread.start();
     }
 
-    private void resetGame() {
+    void resetGame() {
         for (int r = 0; r < ROWS; r++) {
             for (int c = 0; c < COLS; c++) {
                 grid[r][c] = 0;

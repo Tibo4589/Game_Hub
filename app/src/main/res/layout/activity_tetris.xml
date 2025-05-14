@@ -1,10 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/tetris_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_tetris"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_marginTop="50dp"
+        android:background="@color/red"
+        android:title="GameHub - Tetris"
+        android:titleTextColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" >
+
+        <ImageButton
+            android:id="@+id/btnReturnTetris"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:background="@color/red"
+            android:contentDescription="@string/return_main"
+            android:src="@drawable/ic_action_name"
+            android:layout_gravity="end" />
+
+    </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout
         android:id="@+id/tetris_preview_container"
@@ -42,6 +66,39 @@
             android:layout_height="80dp" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/game_over_screen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#AA000000"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="32dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/final_score_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:text="Final Score: 0"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/btn_play_again"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Play Again" />
+
+        <Button
+            android:id="@+id/btn_back_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Back to Hub" />
+    </LinearLayout>
+
     <!-- Tetris Game View -->
     <be.kuleuven.gt.gamehub.TetrisView
         android:id="@+id/tetris_view"
@@ -49,50 +106,58 @@
         android:layout_height="0dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="110dp"
-        android:layout_marginEnd="110dp"
+        android:layout_marginEnd="111dp"
         android:layout_marginBottom="220dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <ImageButton
         android:id="@+id/btnLeftTetris"
         android:layout_width="120dp"
         android:layout_height="210dp"
         android:layout_marginStart="10dp"
         android:layout_marginBottom="10dp"
-        android:text="Left"
+        android:src="@drawable/baseline_arrow_left_24"
+        android:background="@color/teal_700"
+        android:contentDescription="@string/move_left"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
+    <ImageButton
         android:id="@+id/btnRotate"
         android:layout_width="140dp"
         android:layout_height="110dp"
         android:layout_marginStart="6dp"
         android:layout_marginBottom="-10dp"
-        android:text="Rotate "
+        android:src="@drawable/baseline_360_24"
+        android:background="@color/teal_200"
+        android:contentDescription="@string/rotate"
         app:layout_constraintBottom_toTopOf="@+id/btnDownTetris"
         app:layout_constraintStart_toEndOf="@+id/btnLeftTetris" />
 
-    <Button
+    <ImageButton
         android:id="@+id/btnDownTetris"
         android:layout_width="140dp"
         android:layout_height="110dp"
         android:layout_marginStart="6dp"
         android:layout_marginBottom="10dp"
-        android:text="Down"
+        android:src="@drawable/baseline_arrow_drop_down_24"
+        android:background="@color/red"
+        android:contentDescription="@string/move_down"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btnLeftTetris" />
 
-    <Button
+    <ImageButton
         android:id="@+id/btnRightTetris"
         android:layout_width="120dp"
         android:layout_height="210dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
-        android:text="Right"
+        android:src="@drawable/baseline_arrow_right_24"
+        android:background="@color/yellow"
+        android:contentDescription="@string/move_right"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

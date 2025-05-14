@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -28,6 +29,8 @@ public class AchievementsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this); // Ativa edge-to-edge corretamente
         setContentView(R.layout.activity_achievements);
+
+        getSupportActionBar().setTitle("GameHub - Achievements");
 
         // Aplica padding para evitar sobreposição com status bar
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.scrollView), (v, insets) -> {

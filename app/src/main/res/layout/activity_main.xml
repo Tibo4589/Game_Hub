@@ -1,33 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:theme="@style/Theme.GameHub.NoActionBar"
+    android:background="@color/gamehub_blue"
     android:padding="24dp">
 
-    <!-- 2048 Button -->
-    <Button
-        android:id="@+id/btn2048"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Play 2048"
-        android:onClick="open2048"
-        android:layout_marginTop="100dp"
-        app:layout_constraintTop_toTopOf="parent"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_main"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_marginTop="50dp"
+        android:background="@color/blue_dark"
+        android:title="GameHub - Home"
+        android:titleTextColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnPong"
-        app:layout_constraintHorizontal_chainStyle="spread_inside" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-    <!-- Pong Button -->
-    <Button
+        <ImageButton
+            android:id="@+id/btnProfile"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:background="@color/blue_dark"
+            android:contentDescription="Profile"
+            android:onClick="openProfile"
+            android:src="@drawable/profile_pictogram" />
+
+        <ImageButton
+            android:id="@+id/btnStatistics"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:background="@color/blue_dark"
+            android:contentDescription="Statistics"
+            android:onClick="openStatistics"
+            android:src="@drawable/statistics_pictogram" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+
+    <ImageButton
+        android:id="@+id/btn2048"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="108dp"
+        android:adjustViewBounds="true"
+        android:background="@color/gamehub_blue"
+        android:contentDescription="@string/open_2048"
+        android:onClick="open2048"
+        android:padding="0dp"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/logo_2048"
+        app:layout_constraintEnd_toStartOf="@+id/btnPong"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
         android:id="@+id/btnPong"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Play Pong"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:adjustViewBounds="true"
+        android:background="@color/gamehub_blue"
+        android:contentDescription="@string/open_pong"
         android:onClick="openPong"
-        app:layout_constraintTop_toTopOf="@+id/btn2048"
+        android:padding="0dp"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/logo_pong"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btn2048"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/btn2048" />
 
     <!-- Minesweeper Button -->
     <Button
@@ -39,21 +86,26 @@
         android:layout_marginTop="32dp"
         app:layout_constraintTop_toBottomOf="@+id/btn2048"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnBBTAN" />
+        app:layout_constraintEnd_toStartOf="@+id/btnTetris" />
 
     <!-- BBTAN Button -->
-    <Button
-        android:id="@+id/btnBBTAN"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageButton
+        android:id="@+id/btnTetris"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="20dp"
+        android:adjustViewBounds="true"
+        android:background="@color/gamehub_blue"
+        android:contentDescription="@string/open_tetris"
         android:onClick="openTetris"
-        android:text="Play Tetris"
+        android:padding="0dp"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/logo_tetris"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnMinesweeper"
-        app:layout_constraintTop_toTopOf="@+id/btnMinesweeper" />
+        app:layout_constraintTop_toBottomOf="@+id/btnPong" />
 
 
-    <Button
+    <!--Button
         android:id="@+id/btnProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -62,7 +114,7 @@
         app:layout_constraintTop_toBottomOf="@+id/btnMinesweeper"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="20dp"/-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
