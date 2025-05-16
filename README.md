@@ -8,7 +8,7 @@ Installation
 
 Clone the repository:
 
--git clone 
+-git clone git@gitlab.kuleuven.be:groep-t/courses/programming-techniques/pt_2425/ap114.git
 -Open it in Android Studio.
 -Let Gradle sync and build the project.
 -Run the app on an emulator or a physical device.
