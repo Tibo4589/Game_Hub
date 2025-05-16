@@ -8,7 +8,7 @@ Installation
 
 Clone the repository:
 
--git clone https://github.com/Tibo4589/Game_Hub.git
+-git clone 
 -Open it in Android Studio.
 -Let Gradle sync and build the project.
 -Run the app on an emulator or a physical device.
