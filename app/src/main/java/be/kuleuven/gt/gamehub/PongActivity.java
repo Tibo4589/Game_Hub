@@ -34,6 +34,11 @@ public class PongActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pong);
 
+        Toolbar toolbar = findViewById(R.id.toolbar_pong);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setTitle("GameHub - Pong");
+
         pongView = findViewById(R.id.pong_view);
         gameOverScreen = findViewById(R.id.game_over_screen);
         finalScoreText = findViewById(R.id.final_score_text);

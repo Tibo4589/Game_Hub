@@ -7,7 +7,8 @@
     <string name="move_right">Move Right</string>
     <string name="hold">Hold</string>
     <string name="return_main">Return</string>
-    <string name="open_2048">Open 2048</string>
-    <string name="open_tetris">Open Tetris</string>
-    <string name="open_pong">Open Pong</string>
+    <string name="open_2048">2048</string>
+    <string name="open_tetris">Tetris</string>
+    <string name="open_pong">Pong</string>
+    <string name="open_snake">Snake</string>
 </resources>

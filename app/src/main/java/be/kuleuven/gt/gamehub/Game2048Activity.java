@@ -1,6 +1,5 @@
 package be.kuleuven.gt.gamehub;
 
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,9 +17,6 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import be.kuleuven.gt.gamehub.Game2048View;
-
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -45,7 +41,7 @@ public class Game2048Activity extends AppCompatActivity {
         getSupportActionBar().setTitle("GameHub - 2048");
         toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.yellow_2048));
 
-        game2048View = findViewById(R.id.game_2048_view);
+        game2048View = findViewById(R.id.game2048_view);
         buttonUp = findViewById(R.id.btnUp2048);
         buttonDown = findViewById(R.id.btnDown2048);
         buttonLeft = findViewById(R.id.btnLeft2048);

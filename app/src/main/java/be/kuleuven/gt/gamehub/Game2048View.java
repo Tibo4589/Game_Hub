@@ -16,7 +16,6 @@ public class Game2048View extends View {
 
     private int[][] board = new int[4][4];
     private Paint paint;
-    private GestureDetector gestureDetector;
     private boolean isPlaying = true;
     private Random random = new Random();
     public static int score2048 = 0;
@@ -46,7 +45,6 @@ public class Game2048View extends View {
 
     protected void init() {
         paint = new Paint();
-        gestureDetector = new GestureDetector(getContext(), new GestureListener());
         spawnRandom();
         spawnRandom();
     }
@@ -63,8 +61,8 @@ public class Game2048View extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        int width = getWidth()-20;
-        int height = getWidth()-20;
+        int width = getWidth();
+        int height = getWidth();
         int cellSize = Math.min(width, height) / 4;
         canvas.drawColor(Color.WHITE);
 
@@ -91,6 +89,7 @@ public class Game2048View extends View {
         canvas.drawLine(width / 2f, 0, width / 2f, height, paint);
         canvas.drawLine(width * 0.75f, 0, width * 0.75f, height, paint);
         canvas.drawLine(width,0,width,height,paint);
+
     }
 
     private void drawTile(Canvas canvas, int x, int y, int cellSize) {
@@ -171,40 +170,6 @@ public class Game2048View extends View {
                     top + cellSize / 1.7f,
                     paint
             );
-        }
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        return gestureDetector.onTouchEvent(event);
-    }
-
-    private class GestureListener extends GestureDetector.SimpleOnGestureListener {
-        private static final int SWIPE_THRESHOLD = 50; // make swipe easier to trigger
-
-        @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            handleSwipe(e1, e2);
-            return true;
-        }
-
-        @Override
-        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-            handleSwipe(e1, e2);
-            return true;
-        }
-
-        private void handleSwipe(MotionEvent e1, MotionEvent e2) {
-            float dx = e2.getX() - e1.getX();
-            float dy = e2.getY() - e1.getY();
-
-            if (Math.abs(dx) > Math.abs(dy)) {
-                if (dx > SWIPE_THRESHOLD) moveRight();
-                else if (dx < -SWIPE_THRESHOLD) moveLeft();
-            } else {
-                if (dy > SWIPE_THRESHOLD) moveDown();
-                else if (dy < -SWIPE_THRESHOLD) moveUp();
-            }
         }
     }
 

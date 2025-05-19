@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_2048"
@@ -29,74 +30,92 @@
     </androidx.appcompat.widget.Toolbar>
 
     <be.kuleuven.gt.gamehub.Game2048View
-        android:id="@+id/game_2048_view"
+        android:id="@+id/game2048_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="200dp"
-        android:layout_marginBottom="220dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintHeight_percent="0.5"
+        app:layout_constraintBottom_toTopOf="@id/buttonConstraint"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_2048"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/buttonConstraint"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@id/game2048_view">
 
-    <ImageButton
-        android:id="@+id/btnLeft2048"
-        android:layout_width="120dp"
-        android:layout_height="210dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginBottom="10dp"
-        android:contentDescription="@string/move_left"
-        android:src="@drawable/baseline_arrow_left_24"
-        android:background="@color/yellow_2048"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <ImageButton
+            android:id="@+id/btnLeft2048"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:contentDescription="@string/move_left"
+            android:src="@drawable/baseline_arrow_left_24"
+            android:background="@color/yellow_2048"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btnUp2048"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageButton
-        android:id="@+id/btnUp2048"
-        android:layout_width="140dp"
-        android:layout_height="110dp"
-        android:layout_marginStart="6dp"
-        android:layout_marginBottom="-10dp"
-        android:src="@drawable/baseline_arrow_drop_up_24"
-        android:contentDescription="@string/move_up"
-        android:background="@color/yellow_2048"
-        app:layout_constraintBottom_toTopOf="@+id/btnDown2048"
-        app:layout_constraintStart_toEndOf="@+id/btnLeft2048" />
+        <ImageButton
+            android:id="@+id/btnUp2048"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="0dp"
+            android:contentDescription="@string/move_up"
+            android:src="@drawable/baseline_arrow_drop_up_24"
+            android:background="@color/yellow_2048"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/btnDown2048"
+            app:layout_constraintStart_toEndOf="@+id/btnLeft2048"
+            app:layout_constraintEnd_toStartOf="@id/btnRight2048"/>
 
-    <ImageButton
-        android:id="@+id/btnDown2048"
-        android:layout_width="140dp"
-        android:layout_height="110dp"
-        android:layout_marginStart="6dp"
-        android:layout_marginBottom="10dp"
-        android:src="@drawable/baseline_arrow_drop_down_24"
-        android:contentDescription="@string/move_down"
-        android:background="@color/yellow_2048"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnLeft2048" />
+        <ImageButton
+            android:id="@+id/btnDown2048"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:contentDescription="@string/move_down"
+            android:src="@drawable/baseline_arrow_drop_down_24"
+            android:background="@color/yellow_2048"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btnRight2048"
+            app:layout_constraintStart_toEndOf="@+id/btnLeft2048"
+            app:layout_constraintTop_toBottomOf="@id/btnUp2048" />
 
-    <ImageButton
-        android:id="@+id/btnRight2048"
-        android:layout_width="120dp"
-        android:layout_height="210dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
-        android:src="@drawable/baseline_arrow_right_24"
-        android:contentDescription="@string/move_right"
-        android:background="@color/yellow_2048"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <ImageButton
+            android:id="@+id/btnRight2048"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:contentDescription="@string/move_right"
+            android:src="@drawable/baseline_arrow_right_24"
+            android:background="@color/yellow_2048"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btnUp2048"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/txtScore2048"
         android:layout_width="120dp"
         android:layout_height="35dp"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="150dp"
-        android:textStyle="bold"
+        android:layout_marginTop="120dp"
         android:textColor="@color/black"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -104,10 +123,10 @@
         android:id="@+id/txtHighScore2048"
         android:layout_width="120dp"
         android:layout_height="35dp"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="120dp"
         android:layout_marginEnd="50dp"
-        android:textStyle="bold"
         android:textColor="@color/black"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

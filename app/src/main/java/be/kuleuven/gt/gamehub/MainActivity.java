@@ -36,6 +36,9 @@ public class MainActivity extends AppCompatActivity {
     public void openTetris(View view) {
         startActivity(new Intent(this, TetrisActivity.class));
     }
+    public void openSnake(View view) {
+        startActivity(new Intent(this, SnakeActivity.class));
+    }
 
     public void openProfile(View view) {
         Intent intent = new Intent(this, ProfileActivity.class);

@@ -122,7 +122,6 @@ public class PongView extends SurfaceView implements Runnable {
             if (paddleWidth < 100) {
                 paddleWidth = 100;
             }
-            Log.d("PongView", "Bounce! speedX=" + ballSpeedX + " speedY=" + ballSpeedY + " paddleWidth=" + paddleWidth);
         }
 
         ballX += ballSpeedX;
@@ -214,7 +213,7 @@ public class PongView extends SurfaceView implements Runnable {
         ballX = getWidth() / 2f;
         ballY = 200;
         paddleX = (getWidth() - paddleWidth) / 2f;
-        paddleY = getHeight() - 200;
+        paddleY = getHeight() - 300;
         ballSpeedY=20;
         ballSpeedX=20;
     }

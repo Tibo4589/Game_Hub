@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/tetris_root"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/gamehub_blue">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_tetris"
@@ -105,61 +106,83 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="110dp"
-        android:layout_marginEnd="111dp"
-        android:layout_marginBottom="220dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@id/buttonConstraint"
+        app:layout_constraintEnd_toStartOf="@id/btnHold"
+        app:layout_constraintHeight_percent="0.6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_tetris" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/buttonConstraint"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/tetris_view">
 
     <ImageButton
         android:id="@+id/btnLeftTetris"
-        android:layout_width="120dp"
-        android:layout_height="210dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginBottom="0dp"
         android:src="@drawable/baseline_arrow_left_24"
         android:background="@color/teal_700"
         android:contentDescription="@string/move_left"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btnRotate"/>
 
     <ImageButton
         android:id="@+id/btnRotate"
-        android:layout_width="140dp"
-        android:layout_height="110dp"
-        android:layout_marginStart="6dp"
-        android:layout_marginBottom="-10dp"
-        android:src="@drawable/baseline_360_24"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="0dp"
         android:background="@color/teal_200"
         android:contentDescription="@string/rotate"
+        android:src="@drawable/baseline_360_24"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/btnDownTetris"
-        app:layout_constraintStart_toEndOf="@+id/btnLeftTetris" />
+        app:layout_constraintStart_toEndOf="@+id/btnLeftTetris"
+        app:layout_constraintEnd_toStartOf="@id/btnRightTetris"/>
 
     <ImageButton
         android:id="@+id/btnDownTetris"
-        android:layout_width="140dp"
-        android:layout_height="110dp"
-        android:layout_marginStart="6dp"
-        android:layout_marginBottom="10dp"
-        android:src="@drawable/baseline_arrow_drop_down_24"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginBottom="0dp"
         android:background="@color/red"
         android:contentDescription="@string/move_down"
+        android:src="@drawable/baseline_arrow_drop_down_24"
+        app:layout_constraintTop_toBottomOf="@id/btnRotate"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnLeftTetris" />
+        app:layout_constraintStart_toEndOf="@+id/btnLeftTetris"
+        app:layout_constraintEnd_toStartOf="@id/btnRightTetris"/>
 
     <ImageButton
         android:id="@+id/btnRightTetris"
-        android:layout_width="120dp"
-        android:layout_height="210dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="0dp"
         android:src="@drawable/baseline_arrow_right_24"
         android:background="@color/yellow"
         android:contentDescription="@string/move_right"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnRotate"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/txtScoreTetris"
@@ -167,6 +190,8 @@
         android:layout_height="35dp"
         android:layout_marginStart="296dp"
         android:layout_marginTop="400dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/txtHighScoreTetris"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -179,6 +204,8 @@
         android:layout_width="110dp"
         android:layout_height="35dp"
         android:layout_marginTop="385dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/btnHold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -186,13 +213,11 @@
 
     <Button
         android:id="@+id/btnHold"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
+        android:layout_width="110dp"
+        android:layout_height="60dp"
         android:layout_marginTop="460dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="10dp"
         android:text="Hold"
-        app:layout_constraintBottom_toTopOf="@+id/btnRightTetris"
+        app:layout_constraintBottom_toTopOf="@+id/buttonConstraint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />

@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:theme="@style/Theme.GameHub.NoActionBar"
-    android:background="@color/gamehub_blue"
-    android:padding="24dp">
+    android:background="@color/gamehub_blue">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_main"
@@ -48,6 +47,7 @@
         android:id="@+id/btn2048"
         android:layout_width="150dp"
         android:layout_height="150dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="108dp"
         android:adjustViewBounds="true"
         android:background="@color/gamehub_blue"
@@ -65,6 +65,7 @@
         android:id="@+id/btnPong"
         android:layout_width="150dp"
         android:layout_height="150dp"
+        android:layout_marginEnd="24dp"
         android:adjustViewBounds="true"
         android:background="@color/gamehub_blue"
         android:contentDescription="@string/open_pong"
@@ -77,23 +78,31 @@
         app:layout_constraintTop_toTopOf="@+id/btn2048" />
 
     <!-- Minesweeper Button -->
-    <Button
-        android:id="@+id/btnMinesweeper"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Play Minesweeper"
-        android:onClick="openMinesweeper"
-        android:layout_marginTop="32dp"
-        app:layout_constraintTop_toBottomOf="@+id/btn2048"
+    <ImageButton
+        android:id="@+id/btnSnake"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="100dp"
+        android:background="@color/gamehub_blue"
+        android:contentDescription="@string/open_snake"
+        android:onClick="openSnake"
+        android:padding="0dp"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/logo_snake"
+        android:text="Play Snake"
+        app:layout_constraintEnd_toStartOf="@+id/btnTetris"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnTetris" />
+        app:layout_constraintTop_toBottomOf="@+id/btn2048" />
 
     <!-- BBTAN Button -->
     <ImageButton
         android:id="@+id/btnTetris"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="24dp"
         android:adjustViewBounds="true"
         android:background="@color/gamehub_blue"
         android:contentDescription="@string/open_tetris"
@@ -103,6 +112,63 @@
         android:src="@mipmap/logo_tetris"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnPong" />
+
+    <TextView
+        android:id="@+id/txt2048"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:text="@string/open_2048"
+        android:textAlignment="center"
+        android:textSize="40dp"
+        app:layout_constraintEnd_toEndOf="@id/btn2048"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/btn2048"
+        app:layout_constraintTop_toBottomOf="@+id/btn2048"
+        />
+
+    <TextView
+        android:id="@+id/txtPong"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:text="@string/open_pong"
+        android:textAlignment="center"
+        android:textSize="40dp"
+        app:layout_constraintEnd_toEndOf="@id/btnPong"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/btnPong"
+        app:layout_constraintTop_toBottomOf="@+id/btnPong" />
+
+    <TextView
+        android:id="@+id/txtSnake"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:text="@string/open_snake"
+        android:textAlignment="center"
+        android:textSize="40dp"
+        app:layout_constraintEnd_toEndOf="@id/btnSnake"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/btnSnake"
+        app:layout_constraintTop_toBottomOf="@+id/btnSnake" />
+
+    <TextView
+        android:id="@+id/txtTetris"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:text="@string/open_tetris"
+        android:textAlignment="center"
+        android:textSize="40dp"
+        app:layout_constraintEnd_toEndOf="@id/btnTetris"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/btnTetris"
+        app:layout_constraintTop_toBottomOf="@+id/btnTetris" />
 
 
     <!--Button
