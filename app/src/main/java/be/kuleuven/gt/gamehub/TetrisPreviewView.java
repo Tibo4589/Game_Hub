@@ -32,7 +32,7 @@ public class TetrisPreviewView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.drawColor(Color.WHITE);
+        canvas.drawColor(0xFF32618E);
 
         if (piece == null) return;
 

@@ -22,6 +22,7 @@ import org.json.JSONObject;
 public class TetrisActivity extends AppCompatActivity {
 
     private TetrisView tetrisview;
+    private TetrisGameLogic logic;
     private TetrisPreviewView tetrispreviewview;
     private LinearLayout gameOverScreen;
     private TextView finalScoreText;
@@ -33,6 +34,8 @@ public class TetrisActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tetris);
 
+        logic = new TetrisGameLogic();
+
         Toolbar toolbar = findViewById(R.id.toolbar_tetris);
         setSupportActionBar(toolbar);
 
@@ -41,6 +44,7 @@ public class TetrisActivity extends AppCompatActivity {
         }
 
         tetrisview = findViewById(R.id.tetris_view);
+        tetrisview.setLogic(logic);
         tetrisview.resume();
         buttonRotate = findViewById(R.id.btnRotate);
         buttonDown = findViewById(R.id.btnDownTetris);
@@ -53,19 +57,20 @@ public class TetrisActivity extends AppCompatActivity {
         TetrisPreviewView holdPreview = findViewById(R.id.hold_preview);
         TetrisPreviewView nextPreview = findViewById(R.id.next_preview);
 
-        buttonRotate.setOnClickListener(v -> tetrisview.rotateCurrentPiece());
-        buttonDown.setOnClickListener(v -> tetrisview.moveDown());
-        buttonLeft.setOnClickListener(v -> tetrisview.moveLeft());
-        buttonRight.setOnClickListener(v -> tetrisview.moveRight());
-        buttonHold.setOnClickListener(v -> tetrisview.holdPiece());
+        buttonRotate.setOnClickListener(v -> logic.rotate());
+        buttonDown.setOnClickListener(v -> logic.move(1,0));
+        buttonLeft.setOnClickListener(v -> logic.move(0,-1));
+        buttonRight.setOnClickListener(v -> logic.move(0,1));
+        buttonHold.setOnClickListener(v -> logic.hold());
         buttonReturn.setOnClickListener(v -> {finish();});
 
         textScore.setText("Score: " + TetrisView.scoreTetris);
         textHighScore.setText("Highscore: " + TetrisView.highscoreTetris);
-        holdPreview.setPiece(tetrisview.getHeldPiece());
-        nextPreview.setPiece(tetrisview.getNextPiece());
-        tetrisview.setNextPieceChangeListener(nextPreview::setPiece);
-        tetrisview.setHeldPieceChangeListener(holdPreview::setPiece);
+        int [][] heldPiece = logic.heldPiece;
+        holdPreview.setPiece(heldPiece);
+        nextPreview.setPiece(logic.nextPiece);
+        logic.onNextPieceChange = nextPreview::setPiece;
+        logic.onHoldPieceChange = holdPreview::setPiece;
         tetrisview.setScoreChangeListenerTetris(newScore -> {
             textScore.setText("Score: " + newScore);
             if (newScore > TetrisView.highscoreTetris) {
@@ -112,7 +117,7 @@ public class TetrisActivity extends AppCompatActivity {
             buttonLeft.setVisibility(View.VISIBLE);
             buttonRight.setVisibility(View.VISIBLE);
             buttonHold.setVisibility(View.VISIBLE);
-            tetrisview.resetGame();
+            logic.reset();
             tetrisview.resume();
         }
 
