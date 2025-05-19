@@ -34,7 +34,6 @@ public class SnakeView extends SurfaceView implements SurfaceHolder.Callback, Ru
     public void setGameOverListener(GameOverListener listener) {
         this.gameOverListener = listener;
     }
-// Snake game
     public interface GameOverListener {
         void onGameOver(int score);
     }
