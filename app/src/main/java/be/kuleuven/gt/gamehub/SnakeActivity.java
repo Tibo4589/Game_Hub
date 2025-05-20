@@ -25,7 +25,7 @@ public class SnakeActivity extends AppCompatActivity {
     private SnakeView snakeview;
     private LinearLayout gameOverScreen;
     private TextView finalScoreText;
-    private ImageButton buttonDown, buttonLeft, buttonRight, buttonUp, buttonReturn;
+    private ImageButton buttonDown, buttonLeft, buttonRight, buttonUp, buttonReturn, buttonPause;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +60,22 @@ public class SnakeActivity extends AppCompatActivity {
                 textHighScore.setText("HighScore: " + newScore);
             }
         });
+
+        LinearLayout pauseScreen = findViewById(R.id.pause_screen);
+        Button resumeButton = findViewById(R.id.btnResumeSnake);
+        Button buttonRestart = findViewById(R.id.btnRestartSnake);
+
+        buttonPause.setOnClickListener(v -> {
+            snakeview.pause();
+            pauseScreen.setVisibility(View.VISIBLE);
+        });
+
+        resumeButton.setOnClickListener(v -> {
+            snakeview.resume();
+            pauseScreen.setVisibility(View.GONE);
+        });
+
+        buttonRestart.setOnClickListener(v -> restartGame());
 
         gameOverScreen = findViewById(R.id.game_over_screen);
         finalScoreText = findViewById(R.id.final_score_text);

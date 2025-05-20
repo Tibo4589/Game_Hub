@@ -29,6 +29,15 @@
             android:src="@drawable/ic_action_name"
             android:layout_gravity="end" />
 
+        <ImageButton
+            android:id="@+id/btnPauseTetris"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:background="@color/red"
+            android:contentDescription="@string/pause"
+            android:src="@drawable/baseline_pause_24"
+            android:layout_gravity="end" />
+
     </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout
@@ -98,6 +107,37 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:text="Back to Hub" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/pause_screen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#AA000000"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/pause_title"
+            android:text="Game Paused"
+            android:textSize="28sp"
+            android:textColor="@android:color/white"
+            android:layout_marginBottom="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/btnResumeTetris"
+            android:text="Resume"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/btnRestartTetris"
+            android:text="Resume"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 
     <!-- Tetris Game View -->

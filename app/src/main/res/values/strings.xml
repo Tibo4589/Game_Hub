@@ -11,4 +11,5 @@
     <string name="open_tetris">Tetris</string>
     <string name="open_pong">Pong</string>
     <string name="open_snake">Snake</string>
+    <string name="pause">Pause</string>
 </resources>

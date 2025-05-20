@@ -28,7 +28,7 @@ public class TetrisActivity extends AppCompatActivity {
     private TetrisPreviewView tetrispreviewview;
     private LinearLayout gameOverScreen;
     private TextView finalScoreText;
-    private ImageButton buttonRotate, buttonDown, buttonLeft, buttonRight, buttonReturn;
+    private ImageButton buttonRotate, buttonDown, buttonLeft, buttonRight, buttonReturn, buttonPause;
     private Button buttonHold;
 
     @Override
@@ -80,6 +80,22 @@ public class TetrisActivity extends AppCompatActivity {
                 textHighScore.setText("HighScore: " + newScore);
             }
         });
+
+        LinearLayout pauseScreen = findViewById(R.id.pause_screen);
+        Button resumeButton = findViewById(R.id.btnResumeTetris);
+        Button buttonRestart = findViewById(R.id.btnRestartTetris);
+
+        buttonPause.setOnClickListener(v -> {
+            tetrisview.pause();
+            pauseScreen.setVisibility(View.VISIBLE);
+        });
+
+        resumeButton.setOnClickListener(v -> {
+            tetrisview.resume();
+            pauseScreen.setVisibility(View.GONE);
+        });
+
+        buttonRestart.setOnClickListener(v -> restartGame());
 
         gameOverScreen = findViewById(R.id.game_over_screen);
         finalScoreText = findViewById(R.id.final_score_text);

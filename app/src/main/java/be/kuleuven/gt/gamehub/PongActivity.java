@@ -29,7 +29,7 @@ public class PongActivity extends AppCompatActivity {
     private PongView pongView;
     private LinearLayout gameOverScreen;
     private TextView finalScoreText, textScorePong, textHighScorePong;
-    private ImageButton buttonReturn;
+    private ImageButton buttonReturn, buttonPause;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +57,21 @@ public class PongActivity extends AppCompatActivity {
                 textHighScorePong.setText("HighScore: " + newScore);
             }
         });
+
+        LinearLayout pauseScreen = findViewById(R.id.pause_screen);
+        Button resumeButton = findViewById(R.id.btnResume2048);
+        Button buttonRestart = findViewById(R.id.btnRestart2048);
+
+        buttonPause.setOnClickListener(v -> {
+            pongView.pause();
+            pauseScreen.setVisibility(View.VISIBLE);
+        });
+
+        resumeButton.setOnClickListener(v -> {
+            pongView.resume();
+            pauseScreen.setVisibility(View.GONE);
+        });
+        buttonRestart.setOnClickListener(v -> restartGame());
 
         buttonReturn.setOnClickListener(v -> {finish();});
 

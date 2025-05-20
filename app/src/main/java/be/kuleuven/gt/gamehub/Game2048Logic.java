@@ -186,7 +186,7 @@ public class Game2048Logic implements Listeners {
             gameOverListener.onGameOver(score2048);
         }
     }
-    public JSONObject saveState() throws JSONException {
+    public JSONObject saveState2048() throws JSONException {
         JSONObject state = new JSONObject();
         JSONArray boardArray = new JSONArray();
         for (int y = 0; y < size; y++) {
@@ -200,7 +200,7 @@ public class Game2048Logic implements Listeners {
         state.put("score", score2048);
         return state;
     }
-    public void loadState(JSONObject state) throws JSONException {
+    public void loadState2048(JSONObject state) throws JSONException {
         JSONArray boardArray = state.getJSONArray("board");
         for (int y = 0; y < size; y++) {
             JSONArray row = boardArray.getJSONArray(y);

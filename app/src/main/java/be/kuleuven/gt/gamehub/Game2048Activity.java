@@ -29,7 +29,7 @@ public class Game2048Activity extends AppCompatActivity {
     private Game2048Logic game2048Logic;
     private LinearLayout gameOverScreen;
     private TextView finalScoreText;
-    private ImageButton buttonUp, buttonDown, buttonLeft, buttonRight, buttonReturn;
+    private ImageButton buttonUp, buttonDown, buttonLeft, buttonRight, buttonReturn, buttonPause;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +48,7 @@ public class Game2048Activity extends AppCompatActivity {
         if (savedState != null) {
             try {
                 JSONObject state = new JSONObject(savedState);
-                game2048Logic.loadState(state);
+                game2048Logic.loadState2048(state);
             } catch (JSONException e) {
                 e.printStackTrace();
                 game2048Logic.startGame();
@@ -69,6 +69,7 @@ public class Game2048Activity extends AppCompatActivity {
         buttonLeft = findViewById(R.id.btnLeft2048);
         buttonRight = findViewById(R.id.btnRight2048);
         buttonReturn = findViewById(R.id.btnReturn2048);
+        buttonPause = findViewById(R.id.btnPause2048);
         TextView textScore = findViewById(R.id.txtScore2048);
         TextView textHighScore = findViewById(R.id.txtHighScore2048);
 
@@ -85,6 +86,22 @@ public class Game2048Activity extends AppCompatActivity {
                 textHighScore.setText("HighScore: " + newScore);
             }
         });
+
+        LinearLayout pauseScreen = findViewById(R.id.pause_screen);
+        Button resumeButton = findViewById(R.id.btnResume2048);
+        Button buttonRestart = findViewById(R.id.btnRestart2048);
+
+        buttonPause.setOnClickListener(v -> {
+            game2048View.pause();
+            pauseScreen.setVisibility(View.VISIBLE);
+        });
+
+        resumeButton.setOnClickListener(v -> {
+            game2048View.resume();
+            pauseScreen.setVisibility(View.GONE);
+        });
+
+        buttonRestart.setOnClickListener(v -> restartGame());
 
 
         gameOverScreen = findViewById(R.id.game_over_screen);
@@ -116,7 +133,7 @@ public class Game2048Activity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         try {
-            JSONObject state = game2048Logic.saveState();
+            JSONObject state = game2048Logic.saveState2048();
             getSharedPreferences("Game2048", MODE_PRIVATE)
                     .edit()
                     .putString("game_state", state.toString())
