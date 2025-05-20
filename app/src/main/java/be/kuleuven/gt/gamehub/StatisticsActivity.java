@@ -117,7 +117,7 @@ public class StatisticsActivity extends AppCompatActivity {
                                     txtTetrisMonth.setText("Best of the month: " + game.getInt("month"));
                                     txtTetrisAll.setText("Best of all times: " + game.getInt("allTime"));
                                     txtTetrisGlobal.setText("Global Best: " + game.getInt("global"));
-                                }else if (name.equals("Tetris")) {
+                                }else if (name.equals("Snake")) {
                                     txtSnakeToday.setText("Best of today: " + game.getInt("today"));
                                     txtSnakeMonth.setText("Best of the month: " + game.getInt("month"));
                                     txtSnakeAll.setText("Best of all times: " + game.getInt("allTime"));
