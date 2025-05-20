@@ -1,5 +1,9 @@
 package be.kuleuven.gt.gamehub;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Random;
 import java.util.function.Consumer;
 
@@ -27,7 +31,6 @@ public class TetrisGameLogic {
                 grid[r][c] = 0;
             }
         }
-
         score = 0;
         level = 1;
         totalLinesCleared = 0;
@@ -179,5 +182,62 @@ public class TetrisGameLogic {
             pieceCol = TetrisValues.COLS / 2 - currentPiece[0].length / 2;
             if (onHoldPieceChange != null) onHoldPieceChange.accept(heldPiece);
         }
+    }
+
+    public JSONObject toJSON() throws JSONException {
+        JSONObject state = new JSONObject();
+        state.put("grid", arrayToJSONArray(grid));
+        state.put("currentPiece", arrayToJSONArray(currentPiece));
+        state.put("nextPiece", arrayToJSONArray(nextPiece));
+        state.put("heldPiece", heldPiece != null ? arrayToJSONArray(heldPiece) : JSONObject.NULL);
+        state.put("hasHeld", hasHeld);
+        state.put("pieceRow", pieceRow);
+        state.put("pieceCol", pieceCol);
+        state.put("score", score);
+        state.put("level", level);
+        state.put("totalLinesCleared", totalLinesCleared);
+        return state;
+    }
+
+    private JSONArray arrayToJSONArray(int[][] arr) {
+        JSONArray board = new JSONArray();
+        for (int[] row : arr) {
+            JSONArray inner = new JSONArray();
+            for (int val : row) {
+                inner.put(val);
+            }
+            board.put(inner);
+        }
+        return board;
+    }
+
+    public void fromJSON(JSONObject state) throws JSONException {
+        grid = jsonArrayToArray(state.getJSONArray("grid"));
+        currentPiece = jsonArrayToArray(state.getJSONArray("currentPiece"));
+        nextPiece = jsonArrayToArray(state.getJSONArray("nextPiece"));
+        heldPiece = state.isNull("heldPiece") ? null : jsonArrayToArray(state.getJSONArray("heldPiece"));
+        hasHeld = state.getBoolean("hasHeld");
+        pieceRow = state.getInt("pieceRow");
+        pieceCol = state.getInt("pieceCol");
+        score = state.getInt("score");
+        level = state.getInt("level");
+        totalLinesCleared = state.getInt("totalLinesCleared");
+
+        if (onNextPieceChange != null) onNextPieceChange.accept(nextPiece);
+        if (onHoldPieceChange != null) onHoldPieceChange.accept(heldPiece);
+        if (onScoreChange != null) onScoreChange.accept(score);
+    }
+
+    private int[][] jsonArrayToArray(JSONArray arr) throws JSONException {
+        int[][] board = new int[arr.length()][];
+        for (int i = 0; i < arr.length(); i++) {
+            JSONArray inner = arr.getJSONArray(i);
+            int[] row = new int[inner.length()];
+            for (int j = 0; j < inner.length(); j++) {
+                row[j] = inner.getInt(j);
+            }
+            board[i] = row;
+        }
+        return board;
     }
 }

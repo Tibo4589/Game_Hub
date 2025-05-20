@@ -3,6 +3,7 @@ package be.kuleuven.gt.gamehub;
 import static be.kuleuven.gt.gamehub.TetrisPreviewView.getColorForValue;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -10,10 +11,13 @@ import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Random;
 import java.util.function.Consumer;
 
-public class TetrisView extends SurfaceView implements Runnable {
+public class TetrisView extends SurfaceView implements Runnable, Listeners {
     private Thread gameThread;
     private boolean isPlaying;
     private SurfaceHolder holder;
@@ -25,16 +29,6 @@ public class TetrisView extends SurfaceView implements Runnable {
     private TetrisGameLogic logic;
     private Consumer<int[][]> nextPieceChangeListener;
     private Consumer<int[][]> heldPieceChangeListener;
-
-
-
-    public interface GameOverListener {
-        void onGameOver(int scoreTetris);
-    }
-
-    public interface OnScoreChangeListener {
-        void onScoreChanged(int newScore);
-    }
 
     private OnScoreChangeListener scoreChangeListener;
 
@@ -166,6 +160,33 @@ public class TetrisView extends SurfaceView implements Runnable {
         holder.unlockCanvasAndPost(canvas);
     }
 
+    public JSONObject saveStateTetris() {
+        try {
+            SharedPreferences prefs = getContext().getSharedPreferences("TETRIS", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            JSONObject state = logic.toJSON();
+            editor.putString("saved_state", state.toString());
+            editor.apply();
+            return state;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public void loadStateTetris(JSONObject state) {
+        try {
+            SharedPreferences prefs = getContext().getSharedPreferences("TETRIS", Context.MODE_PRIVATE);
+            String json = prefs.getString("saved_state", null);
+            if (json != null) {
+                JSONObject obj = new JSONObject(json);
+                logic.fromJSON(obj);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void pause() {
         isPlaying = false;
         try {
@@ -176,9 +197,10 @@ public class TetrisView extends SurfaceView implements Runnable {
     }
 
     public void resume() {
-        logic.reset();
         isPlaying = true;
-        gameThread = new Thread(this);
-        gameThread.start();
+        if (gameThread == null || !gameThread.isAlive()) {
+            gameThread = new Thread(this);
+            gameThread.start();
+        }
     }
 }

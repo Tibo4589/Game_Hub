@@ -1,5 +1,6 @@
 package be.kuleuven.gt.gamehub;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -37,7 +38,6 @@ public class TetrisActivity extends AppCompatActivity {
         setContentView(R.layout.activity_tetris);
 
         fetchHighScore();
-        logic = new TetrisGameLogic();
 
         Toolbar toolbar = findViewById(R.id.toolbar_tetris);
         setSupportActionBar(toolbar);
@@ -46,7 +46,23 @@ public class TetrisActivity extends AppCompatActivity {
 
 
         tetrisview = findViewById(R.id.tetris_view);
+        logic = new TetrisGameLogic();
         tetrisview.setLogic(logic);
+
+        SharedPreferences prefs = getSharedPreferences("Tetris", MODE_PRIVATE);
+        String savedState = prefs.getString("game_state_tetris", null);
+
+        if (savedState != null) {
+            try {
+                JSONObject state = new JSONObject(savedState);
+                tetrisview.loadStateTetris(state);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                logic.reset();
+            }
+        } else {
+            logic.reset();
+        }
         tetrisview.resume();
         buttonRotate = findViewById(R.id.btnRotate);
         buttonDown = findViewById(R.id.btnDownTetris);
@@ -54,6 +70,7 @@ public class TetrisActivity extends AppCompatActivity {
         buttonRight = findViewById(R.id.btnRightTetris);
         buttonHold = findViewById(R.id.btnHold);
         buttonReturn = findViewById(R.id.btnReturnTetris);
+        buttonPause = findViewById(R.id.btnPauseTetris);
         TextView textScore = findViewById(R.id.txtScoreTetris);
         TextView textHighScore = findViewById(R.id.txtHighScoreTetris);
         TetrisPreviewView holdPreview = findViewById(R.id.hold_preview);
@@ -88,11 +105,23 @@ public class TetrisActivity extends AppCompatActivity {
         buttonPause.setOnClickListener(v -> {
             tetrisview.pause();
             pauseScreen.setVisibility(View.VISIBLE);
+            tetrisview.setVisibility(View.GONE);
+            buttonDown.setVisibility(View.GONE);
+            buttonRotate.setVisibility(View.GONE);
+            buttonLeft.setVisibility(View.GONE);
+            buttonRight.setVisibility(View.GONE);
+            buttonHold.setVisibility(View.GONE);
         });
 
         resumeButton.setOnClickListener(v -> {
             tetrisview.resume();
             pauseScreen.setVisibility(View.GONE);
+            tetrisview.setVisibility(View.VISIBLE);
+            buttonDown.setVisibility(View.VISIBLE);
+            buttonRotate.setVisibility(View.VISIBLE);
+            buttonLeft.setVisibility(View.VISIBLE);
+            buttonRight.setVisibility(View.VISIBLE);
+            buttonHold.setVisibility(View.VISIBLE);
         });
 
         buttonRestart.setOnClickListener(v -> restartGame());
@@ -126,6 +155,16 @@ public class TetrisActivity extends AppCompatActivity {
 
             sendScoreToServer(score, 3); // 1 = ID do jogo Tetris
         }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JSONObject state = tetrisview.saveStateTetris();
+        getSharedPreferences("Tetris", MODE_PRIVATE)
+                .edit()
+                .putString("game_state_tetris", state.toString())
+                .apply();
+    }
 
         private void restartGame() {
             gameOverScreen.setVisibility(View.GONE);
