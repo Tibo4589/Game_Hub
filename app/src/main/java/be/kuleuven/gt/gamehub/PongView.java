@@ -15,7 +15,7 @@ import androidx.core.util.TimeUtils;
 import java.lang.Math;
 
 // This constructor is required for inflation from XML!
-public class PongView extends SurfaceView implements Runnable {
+public class PongView extends SurfaceView implements Runnable, Listeners {
     private Thread gameThread;
     private boolean isPlaying;
     private Paint paint;
@@ -28,12 +28,6 @@ public class PongView extends SurfaceView implements Runnable {
     public int score = 0;
     public static int highscore;
 
-    public interface GameOverListener {
-        void onGameOver(int score);
-    }
-    public interface OnScoreChangeListener {
-        void onScoreChanged(int newScore);
-    }
     private OnScoreChangeListener scoreChangeListener;
     private GameOverListener gameOverListener;
     public void setScoreChangeListenerPong(OnScoreChangeListener listener) {
@@ -100,7 +94,7 @@ public class PongView extends SurfaceView implements Runnable {
 
         boolean isHittingLeftWall = nextBallX <= ballRadius;
         boolean isHittingRightWall = nextBallX >= getWidth() - ballRadius;
-        boolean isHittingTopWall = nextBallY <= 100 + ballRadius;
+        boolean isHittingTopWall = nextBallY <= ballRadius;
 
         if (isHittingLeftWall || isHittingRightWall) {
             ballSpeedX *= -1;

@@ -12,7 +12,7 @@ import android.view.SurfaceView;
 import java.util.LinkedList;
 import java.util.Random;
 
-public class SnakeView extends SurfaceView implements SurfaceHolder.Callback, Runnable {
+public class SnakeView extends SurfaceView implements SurfaceHolder.Callback, Runnable, Listeners {
     private Thread thread;
     private boolean isPlaying = false;
     private SurfaceHolder holder;
@@ -33,13 +33,6 @@ public class SnakeView extends SurfaceView implements SurfaceHolder.Callback, Ru
     private OnScoreChangeListener scoreChangeListener;
     public void setGameOverListener(GameOverListener listener) {
         this.gameOverListener = listener;
-    }
-    //snake
-    public interface GameOverListener {
-        void onGameOver(int score);
-    }
-    public interface OnScoreChangeListener {
-        void onScoreChanged(int newScore);
     }
     public void setScoreChangeListenerSnake(OnScoreChangeListener listener) {
         this.scoreChangeListener = listener;
