@@ -1,5 +1,6 @@
 package be.kuleuven.gt.gamehub;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +26,7 @@ import androidx.core.content.ContextCompat;
 public class Game2048Activity extends AppCompatActivity {
 
     private Game2048View game2048View;
+    private Game2048Logic game2048Logic;
     private LinearLayout gameOverScreen;
     private TextView finalScoreText;
     private ImageButton buttonUp, buttonDown, buttonLeft, buttonRight, buttonReturn;
@@ -33,9 +35,28 @@ public class Game2048Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game2048);
+        game2048View = findViewById(R.id.game2048_view);
 
         fetchHighScore();
-        Game2048View.score2048 = 0;
+
+        SharedPreferences prefs = getSharedPreferences("Game2048", MODE_PRIVATE);
+        String savedState = prefs.getString("game_state", null);
+        game2048Logic = new Game2048Logic(Game2048View.GRID_SIZE);
+        game2048View.setLogic(game2048Logic);
+        game2048Logic.setOnGridChangedListener(() -> game2048View.invalidate());
+
+        if (savedState != null) {
+            try {
+                JSONObject state = new JSONObject(savedState);
+                game2048Logic.loadState(state);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                game2048Logic.startGame();
+            }
+        } else {
+            game2048Logic.startGame();
+            Game2048Logic.score2048 = 0;
+        }
 
         Toolbar toolbar = findViewById(R.id.toolbar_2048);
         setSupportActionBar(toolbar);
@@ -43,7 +64,6 @@ public class Game2048Activity extends AppCompatActivity {
         toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.yellow_2048));
         toolbar.setTitleTextColor(ContextCompat.getColor(this,R.color.white));
 
-        game2048View = findViewById(R.id.game2048_view);
         buttonUp = findViewById(R.id.btnUp2048);
         buttonDown = findViewById(R.id.btnDown2048);
         buttonLeft = findViewById(R.id.btnLeft2048);
@@ -52,16 +72,16 @@ public class Game2048Activity extends AppCompatActivity {
         TextView textScore = findViewById(R.id.txtScore2048);
         TextView textHighScore = findViewById(R.id.txtHighScore2048);
 
-        buttonUp.setOnClickListener(v -> game2048View.moveUp());
-        buttonDown.setOnClickListener(v -> game2048View.moveDown());
-        buttonLeft.setOnClickListener(v -> game2048View.moveLeft());
-        buttonRight.setOnClickListener(v -> game2048View.moveRight());
+        buttonUp.setOnClickListener(v -> game2048Logic.move(Game2048Logic.Direction.UP));
+        buttonDown.setOnClickListener(v -> game2048Logic.move(Game2048Logic.Direction.DOWN));
+        buttonLeft.setOnClickListener(v -> game2048Logic.move(Game2048Logic.Direction.LEFT));
+        buttonRight.setOnClickListener(v -> game2048Logic.move(Game2048Logic.Direction.RIGHT));
         buttonReturn.setOnClickListener(v -> {finish();});
-        textScore.setText("Score: " + game2048View.score2048);
-        game2048View.setScoreChangeListener2048(newScore -> {
+        textScore.setText("Score: " + game2048Logic.score2048);
+        game2048Logic.setScoreChangeListener2048(newScore -> {
             textScore.setText("Score: " + newScore);
-            if (newScore > Game2048View.highscore2048) {
-                Game2048View.highscore2048 = newScore;
+            if (newScore > Game2048Logic.highscore2048) {
+                Game2048Logic.highscore2048 = newScore;
                 textHighScore.setText("HighScore: " + newScore);
             }
         });
@@ -71,7 +91,7 @@ public class Game2048Activity extends AppCompatActivity {
         finalScoreText = findViewById(R.id.final_score_text);
 
         // Set callback for game over
-        game2048View.setGameOverListener(score -> runOnUiThread(() -> showGameOver(game2048View.score2048)));
+        game2048Logic.setGameOverListener(score -> runOnUiThread(() -> showGameOver(game2048Logic.score2048)));
 
         Button playAgainBtn = findViewById(R.id.btn_play_again);
         playAgainBtn.setOnClickListener(v -> restartGame());
@@ -92,13 +112,28 @@ public class Game2048Activity extends AppCompatActivity {
         sendScoreToServer(score, 1); // 1 = ID do jogo 2048
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        try {
+            JSONObject state = game2048Logic.saveState();
+            getSharedPreferences("Game2048", MODE_PRIVATE)
+                    .edit()
+                    .putString("game_state", state.toString())
+                    .apply();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void restartGame() {
         gameOverScreen.setVisibility(View.GONE);
         buttonDown.setVisibility(View.VISIBLE);
         buttonUp.setVisibility(View.VISIBLE);
         buttonLeft.setVisibility(View.VISIBLE);
         buttonRight.setVisibility(View.VISIBLE);
-        game2048View.clear();
+
+        game2048Logic.startGame();
         game2048View.resume();
     }
 
@@ -161,7 +196,7 @@ public class Game2048Activity extends AppCompatActivity {
 
                                 if (name.equals("2048")) {
                                     int serverHighscore = game.getInt("allTime");
-                                    Game2048View.highscore2048 = serverHighscore;
+                                    Game2048Logic.highscore2048 = serverHighscore;
                                     TextView textHighScore = findViewById(R.id.txtHighScore2048);
                                     textHighScore.setText("Highscore: " + serverHighscore);
                                 }
