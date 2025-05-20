@@ -7,6 +7,8 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -30,6 +32,11 @@ public class SettingsActivity extends AppCompatActivity {
         EdgeToEdge.enable(this); // Corrige problemas de sobreposição com o header
         setContentView(R.layout.activity_settings);
 
+        Toolbar toolbar = findViewById(R.id.toolbar_settings);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("GameHub - Settings");
+        toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.white));
+
         // Corrige o layout para não ficar por trás do topo da tela
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.settings_layout), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -40,7 +47,6 @@ public class SettingsActivity extends AppCompatActivity {
         Button btnChangeTheme = findViewById(R.id.btnChangeTheme);
         Button btnLogout = findViewById(R.id.btnLogout);
         Button btnDeleteAccount = findViewById(R.id.btnDeleteAccount);
-        Button btnBack = findViewById(R.id.btnBackSettings);
 
         btnChangeTheme.setOnClickListener(v -> {
             isDarkTheme = !isDarkTheme;
@@ -92,8 +98,5 @@ public class SettingsActivity extends AppCompatActivity {
 
             queue.add(request);
         });
-
-
-        btnBack.setOnClickListener(v -> finish());
     }
 }

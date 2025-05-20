@@ -25,14 +25,20 @@ public class PongView extends SurfaceView implements Runnable {
     private SurfaceHolder holder;
 
     private boolean isGameOver = false;
-    private int score = 0;
-    private int highscore;
+    public int score = 0;
+    public static int highscore;
 
     public interface GameOverListener {
         void onGameOver(int score);
     }
-
+    public interface OnScoreChangeListener {
+        void onScoreChanged(int newScore);
+    }
+    private OnScoreChangeListener scoreChangeListener;
     private GameOverListener gameOverListener;
+    public void setScoreChangeListenerPong(OnScoreChangeListener listener) {
+        this.scoreChangeListener = listener;
+    }
 
     public PongView(Context context) {
         super(context);
@@ -116,6 +122,9 @@ public class PongView extends SurfaceView implements Runnable {
             ballSpeedY = Math.max(-80, Math.min(80, ballSpeedY));
 
             score++;
+            if (scoreChangeListener != null) {
+                scoreChangeListener.onScoreChanged(score);
+            }
             if (score > 20) {
                 paddleWidth -= 10;
             }
@@ -151,14 +160,7 @@ public class PongView extends SurfaceView implements Runnable {
         canvas.drawRect(paddleX, paddleY, paddleX + paddleWidth, paddleY + paddleHeight, paint);
 
         //Line
-        paint.setColor(Color.WHITE);
-        canvas.drawLine(0,100,canvas.getWidth(),100,paint);
-        // Score
-        paint.setTextSize(50);
-        canvas.drawText("Score: " + score, 50, 80, paint);
 
-        paint.setTextSize(50);
-        canvas.drawText("High Score: "+ highscore, 600,80,paint);
 
         holder.unlockCanvasAndPost(canvas);
         postInvalidateOnAnimation();

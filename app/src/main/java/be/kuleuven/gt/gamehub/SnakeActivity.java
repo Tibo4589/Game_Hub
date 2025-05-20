@@ -10,12 +10,14 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -29,12 +31,13 @@ public class SnakeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_snake);
 
+        fetchHighScore();
+
         Toolbar toolbar = findViewById(R.id.toolbar_snake);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("GameHub - Snake");
+        toolbar.setTitleTextColor(ContextCompat.getColor(this,R.color.white));
 
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle("GameHub - Snake");
-        }
 
         snakeview = findViewById(R.id.snakeView);
         buttonDown = findViewById(R.id.btnDownSnake);
@@ -116,4 +119,45 @@ public class SnakeActivity extends AppCompatActivity {
 
         queue.add(request);
     }
+    private void fetchHighScore() {
+        String url = "https://a24pt115.studev.groept.be/get_statistics.php";
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        JSONObject requestBody = new JSONObject();
+        try {
+            requestBody.put("userId", SessionManager.getInstance().getUserId());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, requestBody,
+                response -> {
+                    try {
+                        if (response.getString("status").equals("success")) {
+                            JSONArray data = response.getJSONArray("data");
+
+                            for (int i = 0; i < data.length(); i++) {
+                                JSONObject game = data.getJSONObject(i);
+                                String name = game.getString("name");
+
+                                if (name.equals("Snake")) {
+                                    int serverHighscore = game.getInt("allTime");
+                                    SnakeView.highscoresnake = serverHighscore;
+                                    TextView textHighScore = findViewById(R.id.txtHighScoreSnake);
+                                    textHighScore.setText("Highscore: " + serverHighscore);
+                                }
+                            }
+                        } else {
+                            Toast.makeText(this, "Error loading statistics", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Toast.makeText(this, "JSON parsing error", Toast.LENGTH_SHORT).show();
+                    }
+                },
+                error -> Toast.makeText(this, "Error: " + error.toString(), Toast.LENGTH_SHORT).show());
+
+        queue.add(request);
+    }
 }
+

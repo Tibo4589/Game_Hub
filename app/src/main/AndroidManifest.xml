@@ -34,17 +34,17 @@
         <activity android:name=".StatisticsActivity"
             android:screenOrientation="portrait"
             android:exported="true"
-            android:theme="@style/Theme.GameHub.ActionBar"/>
+            android:theme="@style/Theme.GameHub.NoActionBar"/>
         <activity android:name=".ProfileActivity"
             android:screenOrientation="portrait"
             android:exported="true"
             android:theme="@style/Theme.GameHub.NoActionBar"/>
         <activity android:name=".AchievementsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.GameHub.ActionBar"/>
+            android:theme="@style/Theme.GameHub.NoActionBar"/>
         <activity android:name=".SettingsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.GameHub.ActionBar"/>
+            android:theme="@style/Theme.GameHub.NoActionBar"/>
 
 
 
@@ -52,25 +52,21 @@
 
 
         <!-- LoginActivity é agora a tela inicial -->
-        <!--activity
+        <activity
             android:name=".LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.GameHub.ActionBar"
-            android:exported="true"-->
-        <activity android:name=".MainActivity"
-            android:screenOrientation="portrait"
-            android:exported="true"
-            android:theme="@style/Theme.GameHub.NoActionBar">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <!--activity android:name=".MainActivity"
+        <activity android:name=".MainActivity"
             android:screenOrientation="portrait"
             android:exported="true"
-            android:theme="@style/Theme.GameHub.NoActionBar"/-->
+            android:theme="@style/Theme.GameHub.NoActionBar"/>
     </application>
 
 </manifest>

@@ -13,12 +13,14 @@ import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,7 +28,7 @@ public class PongActivity extends AppCompatActivity {
 
     private PongView pongView;
     private LinearLayout gameOverScreen;
-    private TextView finalScoreText;
+    private TextView finalScoreText, textScorePong, textHighScorePong;
     private ImageButton buttonReturn;
 
     @Override
@@ -34,15 +36,27 @@ public class PongActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pong);
 
+        fetchHighScore();
+
         Toolbar toolbar = findViewById(R.id.toolbar_pong);
         setSupportActionBar(toolbar);
-
         getSupportActionBar().setTitle("GameHub - Pong");
+        toolbar.setTitleTextColor(ContextCompat.getColor(this,R.color.black));
 
         pongView = findViewById(R.id.pong_view);
         gameOverScreen = findViewById(R.id.game_over_screen);
         finalScoreText = findViewById(R.id.final_score_text);
         buttonReturn = findViewById(R.id.btnReturnPong);
+        textScorePong = findViewById(R.id.txtScorePong);
+        textHighScorePong = findViewById(R.id.txtHighScorePong);
+        textScorePong.setText("Score: " + pongView.score);
+        pongView.setScoreChangeListenerPong(newScore -> {
+            textScorePong.setText("Score: " + newScore);
+            if (newScore > PongView.highscore) {
+                PongView.highscore = newScore;
+                textHighScorePong.setText("HighScore: " + newScore);
+            }
+        });
 
         buttonReturn.setOnClickListener(v -> {finish();});
 
@@ -108,6 +122,46 @@ public class PongActivity extends AppCompatActivity {
                 }
 
         );
+
+        queue.add(request);
+    }
+    private void fetchHighScore() {
+        String url = "https://a24pt115.studev.groept.be/get_statistics.php";
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        JSONObject requestBody = new JSONObject();
+        try {
+            requestBody.put("userId", SessionManager.getInstance().getUserId());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, requestBody,
+                response -> {
+                    try {
+                        if (response.getString("status").equals("success")) {
+                            JSONArray data = response.getJSONArray("data");
+
+                            for (int i = 0; i < data.length(); i++) {
+                                JSONObject game = data.getJSONObject(i);
+                                String name = game.getString("name");
+
+                                if (name.equals("Pong")) {
+                                    int serverHighscore = game.getInt("allTime");
+                                    PongView.highscore = serverHighscore;
+                                    TextView textHighScore = findViewById(R.id.txtHighScorePong);
+                                    textHighScore.setText("Highscore: " + serverHighscore);
+                                }
+                            }
+                        } else {
+                            Toast.makeText(this, "Error loading statistics", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Toast.makeText(this, "JSON parsing error", Toast.LENGTH_SHORT).show();
+                    }
+                },
+                error -> Toast.makeText(this, "Error: " + error.toString(), Toast.LENGTH_SHORT).show());
 
         queue.add(request);
     }

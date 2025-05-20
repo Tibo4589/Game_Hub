@@ -22,7 +22,7 @@ public class SnakeView extends SurfaceView implements SurfaceHolder.Callback, Ru
     private final int numBlocksWide = 16;
     private final int numBlocksHigh = 22;
     public int scoresnake = 0;
-    public int highscoresnake = 0;
+    public static int highscoresnake;
     private LinkedList<Point> snake;
     private Point food, place;
     private enum Direction {UP, DOWN, LEFT, RIGHT}

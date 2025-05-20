@@ -1,12 +1,15 @@
 package be.kuleuven.gt.gamehub;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -30,7 +33,10 @@ public class AchievementsActivity extends AppCompatActivity {
         EdgeToEdge.enable(this); // Ativa edge-to-edge corretamente
         setContentView(R.layout.activity_achievements);
 
+        Toolbar toolbar = findViewById(R.id.toolbar_achievements);
+        setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("GameHub - Achievements");
+        toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.white));
 
         // Aplica padding para evitar sobreposição com status bar
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.scrollView), (v, insets) -> {
@@ -40,11 +46,16 @@ public class AchievementsActivity extends AppCompatActivity {
         });
 
         achievementsText = findViewById(R.id.achievementsText);
-        Button btnBack = findViewById(R.id.btnBackAchievements);
-
-        btnBack.setOnClickListener(v -> finish());
 
         fetchAchievements();
+    }
+    public void openProfile(View view) {
+        Intent intent = new Intent(this, ProfileActivity.class);
+        startActivity(intent);
+    }
+
+    public void openMain(View view) {
+        startActivity(new Intent(this,MainActivity.class));
     }
 
     private void fetchAchievements() {

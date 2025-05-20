@@ -1,36 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/scrollView"
-    android:theme="@style/Theme.GameHub.NoActionBar"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:background="@color/white"
+    android:orientation="vertical"
+    android:background="@color/gamehub_blue"
+    android:theme="@style/Theme.GameHub.NoActionBar"
     tools:context=".AchievementsActivity">
 
-    <LinearLayout
-
-        android:id="@+id/achievementsContainer"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_achievements"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/blue_dark"
+        android:title="GameHub - Achievements"
+        android:titleTextColor="@color/white"
+        android:layout_marginTop="50dp"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-        <Button
-            android:id="@+id/btnBackAchievements"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Back"
-            android:layout_marginBottom="16dp"/>
+        <ImageButton
+            android:id="@+id/btnReturnAchievements"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/return_main"
+            android:src="@drawable/ic_action_name"
+            android:onClick="openMain"
+            android:layout_gravity="end" />
 
-        <TextView
-            android:id="@+id/achievementsText"
+        <ImageButton
+            android:id="@+id/btnProfileAchievements"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:src="@drawable/profile_pictogram"
+            android:contentDescription="Profile"
+            android:onClick="openProfile"
+            android:layout_gravity="end"/>
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:id="@+id/achievementsContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Loading achievements..."
-            android:textSize="16sp"
-            android:paddingTop="8dp"
-            android:paddingBottom="16dp"/>
-    </LinearLayout>
-</androidx.core.widget.NestedScrollView>
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/achievementsText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Loading achievements..."
+                android:textSize="16sp"
+                android:paddingTop="8dp"
+                android:paddingBottom="16dp"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>
+

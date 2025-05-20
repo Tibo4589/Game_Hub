@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -25,6 +26,7 @@ public class StatisticsActivity extends AppCompatActivity {
     private TextView txt2048Today, txt2048Month, txt2048All, txt2048Global;
     private TextView txtPongToday, txtPongMonth, txtPongAll, txtPongGlobal;
     private TextView txtTetrisToday, txtTetrisMonth, txtTetrisAll, txtTetrisGlobal;
+    private TextView txtSnakeToday, txtSnakeMonth, txtSnakeAll, txtSnakeGlobal;
 
 
     @Override
@@ -32,7 +34,10 @@ public class StatisticsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics);
 
+        Toolbar toolbar = findViewById(R.id.toolbar_statistics);
+        setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("GameHub - Statistics");
+        toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.white));
 
         // Vincula os TextViews
         txt2048Today = findViewById(R.id.txt2048Today);
@@ -50,25 +55,30 @@ public class StatisticsActivity extends AppCompatActivity {
         txtTetrisAll = findViewById(R.id.txtTetrisAll);
         txtTetrisGlobal = findViewById(R.id.txtTetrisGlobal);
 
+        txtSnakeToday = findViewById(R.id.txtSnakeToday);
+        txtSnakeMonth = findViewById(R.id.txtSnakeMonth);
+        txtSnakeAll = findViewById(R.id.txtSnakeAll);
+        txtSnakeGlobal = findViewById(R.id.txtSnakeGlobal);
+
+
+
 
         // Move para baixo 100px
         LinearLayout layout = findViewById(R.id.statistics_layout);
         layout.setPadding(layout.getPaddingLeft(), layout.getPaddingTop() + 100, layout.getPaddingRight(), layout.getPaddingBottom());
 
-        // Botão de voltar para o MainActivity
-        Button btnBack = findViewById(R.id.btnBackHome);
-        btnBack.setOnClickListener(v -> {
-            Intent intent = new Intent(StatisticsActivity.this, ProfileActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            startActivity(intent);
-            finish();
-
-        });
-
 //        layout.addView(btnBack);
 
         // Chamada à API
         fetchStatistics();
+    }
+    public void openProfile(View view) {
+        Intent intent = new Intent(this, ProfileActivity.class);
+        startActivity(intent);
+    }
+
+    public void openMain(View view) {
+        startActivity(new Intent(this,MainActivity.class));
     }
 
     private void fetchStatistics() {
@@ -107,6 +117,11 @@ public class StatisticsActivity extends AppCompatActivity {
                                     txtTetrisMonth.setText("Best of the month: " + game.getInt("month"));
                                     txtTetrisAll.setText("Best of all times: " + game.getInt("allTime"));
                                     txtTetrisGlobal.setText("Global Best: " + game.getInt("global"));
+                                }else if (name.equals("Tetris")) {
+                                    txtSnakeToday.setText("Best of today: " + game.getInt("today"));
+                                    txtSnakeMonth.setText("Best of the month: " + game.getInt("month"));
+                                    txtSnakeAll.setText("Best of all times: " + game.getInt("allTime"));
+                                    txtSnakeGlobal.setText("Global Best: " + game.getInt("global"));
                                 }
 
                             }

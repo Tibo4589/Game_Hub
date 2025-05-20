@@ -14,6 +14,7 @@ import com.android.volley.toolbox.Volley;
 import android.widget.Toast;
 
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -33,13 +34,14 @@ public class Game2048Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game2048);
 
+        fetchHighScore();
         Game2048View.score2048 = 0;
 
         Toolbar toolbar = findViewById(R.id.toolbar_2048);
         setSupportActionBar(toolbar);
-
         getSupportActionBar().setTitle("GameHub - 2048");
         toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.yellow_2048));
+        toolbar.setTitleTextColor(ContextCompat.getColor(this,R.color.white));
 
         game2048View = findViewById(R.id.game2048_view);
         buttonUp = findViewById(R.id.btnUp2048);
@@ -56,7 +58,6 @@ public class Game2048Activity extends AppCompatActivity {
         buttonRight.setOnClickListener(v -> game2048View.moveRight());
         buttonReturn.setOnClickListener(v -> {finish();});
         textScore.setText("Score: " + game2048View.score2048);
-        textHighScore.setText("Highscore: " + game2048View.highscore2048);
         game2048View.setScoreChangeListener2048(newScore -> {
             textScore.setText("Score: " + newScore);
             if (newScore > Game2048View.highscore2048) {
@@ -137,5 +138,45 @@ public class Game2048Activity extends AppCompatActivity {
         queue.add(request);
     }
 
+    private void fetchHighScore() {
+        String url = "https://a24pt115.studev.groept.be/get_statistics.php";
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        JSONObject requestBody = new JSONObject();
+        try {
+            requestBody.put("userId", SessionManager.getInstance().getUserId());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, requestBody,
+                response -> {
+                    try {
+                        if (response.getString("status").equals("success")) {
+                            JSONArray data = response.getJSONArray("data");
+
+                            for (int i = 0; i < data.length(); i++) {
+                                JSONObject game = data.getJSONObject(i);
+                                String name = game.getString("name");
+
+                                if (name.equals("2048")) {
+                                    int serverHighscore = game.getInt("allTime");
+                                    Game2048View.highscore2048 = serverHighscore;
+                                    TextView textHighScore = findViewById(R.id.txtHighScore2048);
+                                    textHighScore.setText("Highscore: " + serverHighscore);
+                                }
+                            }
+                        } else {
+                            Toast.makeText(this, "Error loading statistics", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Toast.makeText(this, "JSON parsing error", Toast.LENGTH_SHORT).show();
+                    }
+                },
+                error -> Toast.makeText(this, "Error: " + error.toString(), Toast.LENGTH_SHORT).show());
+
+        queue.add(request);
+    }
 
 }

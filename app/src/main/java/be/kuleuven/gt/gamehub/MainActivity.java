@@ -20,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
-
         getSupportActionBar().setTitle("GameHub - Home");
         toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.white));
     }

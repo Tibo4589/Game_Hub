@@ -1,129 +1,208 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/statistics_scroll"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/Theme.GameHub.ActionBar">
+    android:orientation="vertical"
+    android:background="@color/gamehub_blue"
+    android:theme="@style/Theme.GameHub.NoActionBar">
 
-    <LinearLayout
-        android:id="@+id/statistics_layout"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_statistics"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="24dp"
-        android:paddingTop="100dp">
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/blue_dark"
+        android:title="GameHub - Home"
+        android:layout_marginTop="50dp"
+        android:titleTextColor="@color/white"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-        <TextView
-            android:id="@+id/txtTitle"
-            android:text="Statistics"
-            android:textSize="26sp"
-            android:textStyle="bold"
-            android:layout_gravity="center_horizontal"
-            android:layout_width="wrap_content"
+        <ImageButton
+            android:id="@+id/btnHomeStatistics"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:background="@color/blue_dark"
+            android:contentDescription="Home"
+            android:onClick="openMain"
+            android:src="@drawable/ic_action_name" />
+
+        <ImageButton
+            android:id="@+id/btnProfileStatistics"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:background="@color/blue_dark"
+            android:contentDescription="Profile"
+            android:onClick="openProfile"
+            android:src="@drawable/profile_pictogram" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:id="@+id/statistics_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:id="@+id/statistics_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"/>
+            android:orientation="vertical"
+            android:padding="24dp"
+            android:paddingTop="16dp">
 
         <!-- 2048 Section -->
-        <TextView android:id="@+id/txt2048Title"
+            <TextView android:id="@+id/txt2048Title"
             android:text="2048"
             android:textSize="22sp"
             android:textStyle="bold"
+                android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <TextView android:id="@+id/txt2048Today"
+            <TextView android:id="@+id/txt2048Today"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+                android:textColor="@color/black"
             android:text="Best of today: -" />
 
-        <TextView android:id="@+id/txt2048Month"
+            <TextView android:id="@+id/txt2048Month"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+                android:textColor="@color/black"
             android:text="Best of the month: -" />
 
-        <TextView android:id="@+id/txt2048All"
+            <TextView android:id="@+id/txt2048All"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+                android:textColor="@color/black"
             android:text="Best of all times: -" />
 
 
-        <TextView android:id="@+id/txt2048Global"
+            <TextView android:id="@+id/txt2048Global"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+                android:textColor="@color/black"
             android:text="Global Best: -" />
 
-        <View android:layout_width="match_parent"
-            android:layout_height="24dp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="36dp" />
 
         <!-- Pong Section -->
-        <TextView android:id="@+id/txtPongTitle"
+            <TextView android:id="@+id/txtPongTitle"
             android:text="Pong"
             android:textSize="22sp"
             android:textStyle="bold"
+                android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <TextView android:id="@+id/txtPongToday"
+            <TextView android:id="@+id/txtPongToday"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+                android:textColor="@color/black"
             android:text="Best of today: -" />
 
-        <TextView android:id="@+id/txtPongMonth"
+            <TextView android:id="@+id/txtPongMonth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+                android:textColor="@color/black"
             android:text="Best of the month: -" />
 
-        <TextView android:id="@+id/txtPongAll"
+            <TextView android:id="@+id/txtPongAll"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+                android:textColor="@color/black"
             android:text="Best of all times: -" />
 
 
-        <TextView android:id="@+id/txtPongGlobal"
+            <TextView android:id="@+id/txtPongGlobal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+                android:textColor="@color/black"
             android:text="Global Best: -" />
 
-        <View android:layout_width="match_parent"
+            <View android:layout_width="match_parent"
             android:layout_height="36dp" />
 
         <!-- Tetris section -->
-        <TextView android:id="@+id/txtTetrisTitle"
+            <TextView android:id="@+id/txtTetrisTitle"
             android:text="Tetris"
             android:textSize="22sp"
             android:textStyle="bold"
+                android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <TextView android:id="@+id/txtTetrisToday"
+            <TextView android:id="@+id/txtTetrisToday"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+                android:textColor="@color/black"
             android:text="Best of today: -" />
 
-        <TextView android:id="@+id/txtTetrisMonth"
+            <TextView android:id="@+id/txtTetrisMonth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+                android:textColor="@color/black"
             android:text="Best of the month: -" />
 
-        <TextView android:id="@+id/txtTetrisAll"
+            <TextView android:id="@+id/txtTetrisAll"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+                android:textColor="@color/black"
             android:text="Best of all times: -" />
 
 
-        <TextView android:id="@+id/txtTetrisGlobal"
+            <TextView android:id="@+id/txtTetrisGlobal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+                android:textColor="@color/black"
             android:text="Global Best: -" />
 
-        <View android:layout_width="match_parent"
+            <View android:layout_width="match_parent"
             android:layout_height="36dp" />
 
-        <Button
-            android:id="@+id/btnBackHome"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Back to Profile"
-            android:layout_marginTop="20dp" />
+            <TextView android:id="@+id/txtSnakeTitle"
+                android:text="Snake"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
-    </LinearLayout>
-</ScrollView>
+            <TextView android:id="@+id/txtSnakeToday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="Best of today: -" />
+
+            <TextView android:id="@+id/txtSnakeMonth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="Best of the month: -" />
+
+            <TextView android:id="@+id/txtSnakeAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="Best of all times: -" />
+
+
+            <TextView android:id="@+id/txtSnakeGlobal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="Global Best: -" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="36dp" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
