@@ -1,7 +1,5 @@
 package be.kuleuven.gt.gamehub;
 
-import android.graphics.drawable.ColorDrawable;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,7 +8,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -35,6 +32,7 @@ public class PongActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pong);
+        pongView = findViewById(R.id.pong_view);
 
         fetchHighScore();
 
@@ -42,11 +40,37 @@ public class PongActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("GameHub - Pong");
         toolbar.setTitleTextColor(ContextCompat.getColor(this,R.color.black));
+        pongView.post(() -> {
+                    String savedStateJson = getIntent().getStringExtra("saved_game_state");
+                    if (savedStateJson != null) {
+                        try {
+                            JSONObject state = new JSONObject(savedStateJson);
+                            pongView.loadStatePong(state);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        String savedPrefsState = getSharedPreferences("Pong", MODE_PRIVATE)
+                                .getString("game_state_pong", null);
+                        if (savedPrefsState != null) {
+                            try {
+                                JSONObject state = new JSONObject(savedPrefsState);
+                                pongView.loadStatePong(state);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            pongView.resetGame();
+                        }
+                    }
+                });
 
-        pongView = findViewById(R.id.pong_view);
+        pongView.resume();
+
         gameOverScreen = findViewById(R.id.game_over_screen);
         finalScoreText = findViewById(R.id.final_score_text);
         buttonReturn = findViewById(R.id.btnReturnPong);
+        buttonPause = findViewById(R.id.btnPausePong);
         textScorePong = findViewById(R.id.txtScorePong);
         textHighScorePong = findViewById(R.id.txtHighScorePong);
         textScorePong.setText("Score: " + pongView.score);
@@ -59,19 +83,22 @@ public class PongActivity extends AppCompatActivity {
         });
 
         LinearLayout pauseScreen = findViewById(R.id.pause_screen);
-        Button resumeButton = findViewById(R.id.btnResume2048);
-        Button buttonRestart = findViewById(R.id.btnRestart2048);
+        Button buttonResume = findViewById(R.id.btnResumePong);
+        Button buttonRestart = findViewById(R.id.btnRestartPong);
 
         buttonPause.setOnClickListener(v -> {
             pongView.pause();
             pauseScreen.setVisibility(View.VISIBLE);
         });
 
-        resumeButton.setOnClickListener(v -> {
+        buttonResume.setOnClickListener(v -> {
             pongView.resume();
             pauseScreen.setVisibility(View.GONE);
         });
-        buttonRestart.setOnClickListener(v -> restartGame());
+        buttonRestart.setOnClickListener(v -> {
+            restartGame();
+            pauseScreen.setVisibility(View.GONE);
+        });
 
         buttonReturn.setOnClickListener(v -> {finish();});
 
@@ -104,14 +131,17 @@ public class PongActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         pongView.pause();
+        JSONObject state = pongView.saveStatePong();
+        getSharedPreferences("Pong", MODE_PRIVATE)
+                .edit()
+                .putString("game_state_pong", state.toString())
+                .apply();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (gameOverScreen.getVisibility() == View.GONE) {
-            // jogo continua
-        }
+        pongView.resume();
     }
 
     private void sendScoreToServer(int score, int gameId) {

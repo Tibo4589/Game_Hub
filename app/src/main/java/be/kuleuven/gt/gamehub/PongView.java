@@ -5,21 +5,20 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import androidx.core.util.TimeUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.lang.Math;
 
-// This constructor is required for inflation from XML!
 public class PongView extends SurfaceView implements Runnable, Listeners {
     private Thread gameThread;
     private boolean isPlaying;
     private Paint paint;
-    private float ballX = getWidth()/2f, ballY=200, ballRadius = 20;
+    private float ballX, ballY, ballRadius = 20;
     private float ballSpeedX , ballSpeedY;
     private float paddleX, paddleY, paddleWidth = 300, paddleHeight = 30;
     private SurfaceHolder holder;
@@ -29,7 +28,7 @@ public class PongView extends SurfaceView implements Runnable, Listeners {
     public static int highscore;
 
     private OnScoreChangeListener scoreChangeListener;
-    private GameOverListener gameOverListener;
+    private GameOverListener gameOverListener = null;
     public void setScoreChangeListenerPong(OnScoreChangeListener listener) {
         this.scoreChangeListener = listener;
     }
@@ -54,10 +53,9 @@ public class PongView extends SurfaceView implements Runnable, Listeners {
         holder.addCallback(new SurfaceHolder.Callback() {
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
-                resetPositions(); // SAFE to call now!
-                resume();         // Start the game after layout
+                resetGame();
+                resume();
             }
-
             @Override
             public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) { }
 
@@ -72,11 +70,13 @@ public class PongView extends SurfaceView implements Runnable, Listeners {
 
     @Override
     public void run() {
+        draw();
+        invalidate();
         while (isPlaying) {
             control();
-            update();
             draw();
             setHighscore();
+            update();
             invalidate();
         }
         setHighscore();
@@ -88,6 +88,7 @@ public class PongView extends SurfaceView implements Runnable, Listeners {
 
     private void update() {
         if (isGameOver) return;
+        if (getHeight() == 0 || getWidth() == 0) return;
 
         float nextBallX = ballX + ballSpeedX;
         float nextBallY = ballY + ballSpeedY;
@@ -116,15 +117,15 @@ public class PongView extends SurfaceView implements Runnable, Listeners {
             ballSpeedY = Math.max(-80, Math.min(80, ballSpeedY));
 
             score++;
-            if (scoreChangeListener != null) {
-                scoreChangeListener.onScoreChanged(score);
-            }
             if (score > 20) {
                 paddleWidth -= 10;
             }
             if (paddleWidth < 100) {
                 paddleWidth = 100;
             }
+        }
+        if (scoreChangeListener != null) {
+            scoreChangeListener.onScoreChanged(score);
         }
 
         ballX += ballSpeedX;
@@ -153,9 +154,6 @@ public class PongView extends SurfaceView implements Runnable, Listeners {
         // Paddle
         canvas.drawRect(paddleX, paddleY, paddleX + paddleWidth, paddleY + paddleHeight, paint);
 
-        //Line
-
-
         holder.unlockCanvasAndPost(canvas);
         postInvalidateOnAnimation();
     }
@@ -178,6 +176,7 @@ public class PongView extends SurfaceView implements Runnable, Listeners {
     }
 
     public void resume() {
+        if (isPlaying) return;
         isPlaying = true;
         gameThread = new Thread(this);
         gameThread.start();
@@ -213,9 +212,40 @@ public class PongView extends SurfaceView implements Runnable, Listeners {
         ballSpeedY=20;
         ballSpeedX=20;
     }
-    private void setHighscore(){
-        if (score>highscore){
-            highscore=score;
+    private void setHighscore() {
+        if (score > highscore) {
+            highscore = score;
+        }
+    }
+    public JSONObject saveStatePong() {
+        JSONObject state = new JSONObject();
+        try {
+            state.put("ballX", ballX);
+            state.put("ballY", ballY);
+            state.put("ballSpeedX", ballSpeedX);
+            state.put("ballSpeedY", ballSpeedY);
+            state.put("paddleX", paddleX);
+            state.put("score", score);
+            state.put("paddleWidth", paddleWidth);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return state;
+    }
+
+    public void loadStatePong(JSONObject state) {
+        if (state == null) return;
+        try {
+            ballX = (float) state.optDouble("ballX", getWidth() / 2f);
+            ballY = (float) state.optDouble("ballY", 200);
+            ballSpeedX = (float) state.optDouble("ballSpeedX", 20);
+            ballSpeedY = (float) state.optDouble("ballSpeedY", 20);
+            paddleX = (float) state.optDouble("paddleX", (getWidth() - paddleWidth) / 2f);
+            score = state.optInt("score", 0);
+            paddleWidth = (float) state.optDouble("paddleWidth", paddleWidth);
+            isGameOver = false;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
