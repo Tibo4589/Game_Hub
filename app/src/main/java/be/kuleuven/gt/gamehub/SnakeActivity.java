@@ -31,6 +31,7 @@ public class SnakeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_snake);
 
+        snakeview = findViewById(R.id.snakeView);
         fetchHighScore();
 
         Toolbar toolbar = findViewById(R.id.toolbar_snake);
@@ -38,13 +39,22 @@ public class SnakeActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("GameHub - Snake");
         toolbar.setTitleTextColor(ContextCompat.getColor(this,R.color.white));
 
+        String savedJson = getSharedPreferences("Snake", MODE_PRIVATE).getString("game_state_snake", null);
+        if (savedJson != null) {
+            try {
+                JSONObject state = new JSONObject(savedJson);
+                snakeview.loadState(state);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
 
-        snakeview = findViewById(R.id.snakeView);
         buttonDown = findViewById(R.id.btnDownSnake);
         buttonLeft = findViewById(R.id.btnLeftSnake);
         buttonRight = findViewById(R.id.btnRightSnake);
         buttonUp = findViewById(R.id.btnUpSnake);
         buttonReturn = findViewById(R.id.btnReturnSnake);
+        buttonPause = findViewById(R.id.btnPauseSnake);
 
         buttonRight.setOnClickListener(v -> snakeview.moveright());
         buttonDown.setOnClickListener(v -> snakeview.movedown());
@@ -104,6 +114,17 @@ public class SnakeActivity extends AppCompatActivity {
         buttonRight.setVisibility(View.GONE);
 
         sendScoreToServer(score, 4); // 4 = ID do jogo Snake
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (snakeview != null) {
+            JSONObject state = snakeview.saveState();
+            getSharedPreferences("Snake", MODE_PRIVATE).edit()
+                    .putString("game_state_snake", state.toString())
+                    .apply();
+        }
     }
     private void restartGame() {
         gameOverScreen.setVisibility(View.GONE);

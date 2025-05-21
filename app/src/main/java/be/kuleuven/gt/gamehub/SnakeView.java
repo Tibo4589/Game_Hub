@@ -12,18 +12,22 @@ import android.view.SurfaceView;
 import java.util.LinkedList;
 import java.util.Random;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONArray;
+
 public class SnakeView extends SurfaceView implements SurfaceHolder.Callback, Runnable, Listeners {
     private Thread thread;
     private boolean isPlaying = false;
     private SurfaceHolder holder;
     private Paint paint;
-
+    private boolean hasLoadedState = false;
     private int blockSize;
     private final int numBlocksWide = 16;
     private final int numBlocksHigh = 22;
     public int scoresnake = 0;
     public static int highscoresnake;
-    private LinkedList<Point> snake;
+    private LinkedList<Point> snake = new LinkedList<>();
     private Point food, place;
     private enum Direction {UP, DOWN, LEFT, RIGHT}
     private Direction direction = Direction.RIGHT;
@@ -48,7 +52,9 @@ public class SnakeView extends SurfaceView implements SurfaceHolder.Callback, Ru
     public void surfaceCreated(SurfaceHolder holder) {
         blockSize = getWidth() / numBlocksWide;
 
-        initGame();
+        if (!hasLoadedState) {
+            initGame();
+        }
 
         if (scoreChangeListener != null) {
             scoreChangeListener.onScoreChanged(scoresnake);
@@ -217,5 +223,50 @@ public class SnakeView extends SurfaceView implements SurfaceHolder.Callback, Ru
 
     public void resume() {
         isPlaying = true;
+    }
+
+    public JSONObject saveState() {
+        JSONObject state = new JSONObject();
+        try {
+            // Save snake
+            JSONArray snakeArray = new JSONArray();
+            for (Point p : snake) {
+                JSONObject pointObj = new JSONObject();
+                pointObj.put("x", p.x);
+                pointObj.put("y", p.y);
+                snakeArray.put(pointObj);
+            }
+            state.put("snake", snakeArray);
+            JSONObject foodObj = new JSONObject();
+            foodObj.put("x", food.x);
+            foodObj.put("y", food.y);
+            state.put("food", foodObj);
+            state.put("direction", direction.toString());
+            state.put("score", scoresnake);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return state;
+    }
+    public void loadState(JSONObject state) {
+        try {
+            snake.clear();
+            JSONArray snakeArray = state.getJSONArray("snake");
+            for (int i = 0; i < snakeArray.length(); i++) {
+                JSONObject pointObj = snakeArray.getJSONObject(i);
+                snake.add(new Point(pointObj.getInt("x"), pointObj.getInt("y")));
+            }
+            JSONObject foodObj = state.getJSONObject("food");
+            food = new Point(foodObj.getInt("x"), foodObj.getInt("y"));
+            direction = Direction.valueOf(state.getString("direction"));
+            scoresnake = state.getInt("score");
+            if (scoreChangeListener != null) {
+                scoreChangeListener.onScoreChanged(scoresnake);
+            }
+            hasLoadedState = true;
+            invalidate();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }
