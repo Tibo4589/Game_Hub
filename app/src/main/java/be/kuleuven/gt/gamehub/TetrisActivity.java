@@ -124,7 +124,10 @@ public class TetrisActivity extends AppCompatActivity {
             buttonHold.setVisibility(View.VISIBLE);
         });
 
-        buttonRestart.setOnClickListener(v -> restartGame());
+        buttonRestart.setOnClickListener(v -> {
+            restartGame();
+            pauseScreen.setVisibility(View.GONE);
+        });
 
         gameOverScreen = findViewById(R.id.game_over_screen);
         finalScoreText = findViewById(R.id.final_score_text);

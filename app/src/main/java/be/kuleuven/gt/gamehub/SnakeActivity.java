@@ -75,7 +75,10 @@ public class SnakeActivity extends AppCompatActivity {
             pauseScreen.setVisibility(View.GONE);
         });
 
-        buttonRestart.setOnClickListener(v -> restartGame());
+        buttonRestart.setOnClickListener(v -> {
+            restartGame();
+            pauseScreen.setVisibility(View.GONE);
+        });
 
         gameOverScreen = findViewById(R.id.game_over_screen);
         finalScoreText = findViewById(R.id.final_score_text);
