@@ -225,7 +225,10 @@ public class SnakeView extends SurfaceView implements SurfaceHolder.Callback, Ru
         isPlaying = true;
     }
 
-    public JSONObject saveState() {
+    int userId = SessionManager.getInstance().getUserId();
+    String saveKey = "snake_state_" + userId;
+
+    public JSONObject saveStateSnake() {
         JSONObject state = new JSONObject();
         try {
             // Save snake
@@ -248,7 +251,8 @@ public class SnakeView extends SurfaceView implements SurfaceHolder.Callback, Ru
         }
         return state;
     }
-    public void loadState(JSONObject state) {
+
+    public void loadStateSnake(JSONObject state) {
         try {
             snake.clear();
             JSONArray snakeArray = state.getJSONArray("snake");

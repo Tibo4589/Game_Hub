@@ -31,6 +31,8 @@ public class TetrisActivity extends AppCompatActivity {
     private TextView finalScoreText;
     private ImageButton buttonRotate, buttonDown, buttonLeft, buttonRight, buttonReturn, buttonPause;
     private Button buttonHold;
+    int userId = SessionManager.getInstance().getUserId();
+    String saveKey = "Tetris_state_" + userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +52,7 @@ public class TetrisActivity extends AppCompatActivity {
         tetrisview.setLogic(logic);
 
         SharedPreferences prefs = getSharedPreferences("Tetris", MODE_PRIVATE);
-        String savedState = prefs.getString("game_state_tetris", null);
+        String savedState = prefs.getString(saveKey, null);
 
         if (savedState != null) {
             try {
@@ -165,7 +167,7 @@ public class TetrisActivity extends AppCompatActivity {
         JSONObject state = tetrisview.saveStateTetris();
         getSharedPreferences("Tetris", MODE_PRIVATE)
                 .edit()
-                .putString("game_state_tetris", state.toString())
+                .putString(saveKey, state.toString())
                 .apply();
     }
 

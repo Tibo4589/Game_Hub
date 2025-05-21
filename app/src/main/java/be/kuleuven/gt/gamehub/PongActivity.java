@@ -27,6 +27,8 @@ public class PongActivity extends AppCompatActivity {
     private LinearLayout gameOverScreen;
     private TextView finalScoreText, textScorePong, textHighScorePong;
     private ImageButton buttonReturn, buttonPause;
+    int userId = SessionManager.getInstance().getUserId();
+    String saveKey = "Pong_state_" + userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +53,7 @@ public class PongActivity extends AppCompatActivity {
                         }
                     } else {
                         String savedPrefsState = getSharedPreferences("Pong", MODE_PRIVATE)
-                                .getString("game_state_pong", null);
+                                .getString(saveKey, null);
                         if (savedPrefsState != null) {
                             try {
                                 JSONObject state = new JSONObject(savedPrefsState);
@@ -134,7 +136,7 @@ public class PongActivity extends AppCompatActivity {
         JSONObject state = pongView.saveStatePong();
         getSharedPreferences("Pong", MODE_PRIVATE)
                 .edit()
-                .putString("game_state_pong", state.toString())
+                .putString(saveKey, state.toString())
                 .apply();
     }
 

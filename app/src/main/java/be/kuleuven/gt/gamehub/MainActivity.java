@@ -26,8 +26,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openPong(View view) {
+        int userId = SessionManager.getInstance().getUserId();
+        String saveKey = "pong_state_" + userId;
         SharedPreferences prefs = getSharedPreferences("Pong", MODE_PRIVATE);
-        String savedState = prefs.getString("game_state_pong", null);
+        String savedState = prefs.getString(saveKey, null);
 
         Intent intent = new Intent(this, PongActivity.class);
         if (savedState != null) {

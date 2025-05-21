@@ -39,11 +39,11 @@ public class SnakeActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("GameHub - Snake");
         toolbar.setTitleTextColor(ContextCompat.getColor(this,R.color.white));
 
-        String savedJson = getSharedPreferences("Snake", MODE_PRIVATE).getString("game_state_snake", null);
+        String savedJson = getSharedPreferences("Snake", MODE_PRIVATE).getString(snakeview.saveKey, null);
         if (savedJson != null) {
             try {
                 JSONObject state = new JSONObject(savedJson);
-                snakeview.loadState(state);
+                snakeview.loadStateSnake(state);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -120,9 +120,9 @@ public class SnakeActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         if (snakeview != null) {
-            JSONObject state = snakeview.saveState();
+            JSONObject state = snakeview.saveStateSnake();
             getSharedPreferences("Snake", MODE_PRIVATE).edit()
-                    .putString("game_state_snake", state.toString())
+                    .putString(snakeview.saveKey, state.toString())
                     .apply();
         }
     }

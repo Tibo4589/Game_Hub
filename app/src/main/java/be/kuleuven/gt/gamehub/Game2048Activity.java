@@ -30,6 +30,8 @@ public class Game2048Activity extends AppCompatActivity {
     private LinearLayout gameOverScreen;
     private TextView finalScoreText;
     private ImageButton buttonUp, buttonDown, buttonLeft, buttonRight, buttonReturn, buttonPause;
+    int userId = SessionManager.getInstance().getUserId();
+    String saveKey = "2048_state_" + userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +42,7 @@ public class Game2048Activity extends AppCompatActivity {
         fetchHighScore();
 
         SharedPreferences prefs = getSharedPreferences("Game2048", MODE_PRIVATE);
-        String savedState = prefs.getString("game_state_2048", null);
+        String savedState = prefs.getString(saveKey, null);
         game2048Logic = new Game2048Logic(Game2048View.GRID_SIZE);
         game2048View.setLogic(game2048Logic);
         game2048Logic.setOnGridChangedListener(() -> game2048View.invalidate());
@@ -139,7 +141,7 @@ public class Game2048Activity extends AppCompatActivity {
             JSONObject state = game2048Logic.saveState2048();
             getSharedPreferences("Game2048", MODE_PRIVATE)
                     .edit()
-                    .putString("game_state_2048", state.toString())
+                    .putString(saveKey, state.toString())
                     .apply();
         } catch (JSONException e) {
             e.printStackTrace();
